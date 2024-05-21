@@ -40,7 +40,7 @@ console.log(result)
 let fruitArr = ['apple', 'banana', 'orange', 'kiwi']
 const capitalizeletter = []
 for (let i = 0; i < fruitArr.length; i++) {
-
+    
     let element = fruitArr[i]
     let firstChar = element[0]
     let remaingString = fruitArr[i].slice(1)
@@ -103,7 +103,8 @@ for (let index = 0; index <= evenNumber.length; index++) {
 }
 console.log(filterEvenNumb)
 
-let numbs = [3, 5, 6, 7, 5, 8, 11]
+let numbs = [3, 5, 6, 7, 5, 8 ,11]
+
 function findMinMax(arr) {
     let minimum = arr[0];
     let maximum = arr[0];
@@ -111,7 +112,6 @@ function findMinMax(arr) {
         if (arr[index] < minimum) {
             minimum = arr[index]
         }
-
     }
         for (let index = 1; index <= arr.length; index++) {
             if (arr[index] > maximum) {
@@ -121,3 +121,45 @@ function findMinMax(arr) {
         return {minimum, maximum}
 }
 console.log(findMinMax(numbs))
+
+
+function greeting( name, displaymsg){
+    const messege = `good morning ${name}`;
+    displaymsg(messege)
+    console.log(name,displaymsg)
+}
+
+function displaymsg(messege){
+    console.log(messege)
+}
+ console.log(greeting("kiran",displaymsg))
+
+ function addition (a,b , result1) {
+    const sum = a+b
+    result1(sum)
+ }
+ function result1(sum){
+    console.log(sum)
+ }
+ addition( 4,8, result1 )
+
+
+
+ let firstarr =[2,3,4,5]
+ let secArr= [3,4,5,6]
+ function sumofarray( num1 , num2){
+    let sum =0
+    let sum1 =0
+    for(let index = 0;index < num1.length; index++){
+        sum += num1[index]
+    }
+    console.log(sum)
+    for( let index=0; index < num2.length; index++ ){
+        sum1 += num2[index]
+    }
+    console.log(sum1)
+    return sum + sum1
+
+ }
+  const results = sumofarray(firstarr, secArr)
+  console.log(results)
