@@ -44,20 +44,24 @@ for(const element of arr1){
         resArr.push(element)
     }
 }
-console.log(resArr)
+// console.log(resArr)
 
-let numb = [2,3,5,7,9,8]
-let newArr = numb[0]
+let numb = [3,5,1,9,8]
+let minimum = numb[1]
+// console.log(minimum)
 
 for(const element of numb){
-    let minimum = numb
-    // console.log(minimum)
+    // console.log(numb)
+    // console.log(element)
     if(element<minimum){
+
+        console.log(element)
+        console.log(minimum)
         minimum= element
+        // console.log(minimum=element)
     }
 }
-// console.log(newArr)
-// console.log(newArr)
+// console.log(minimum)
 
 
 
@@ -71,24 +75,24 @@ for(const element of arrMax){
     }
     
 }
-console.log(max)
+// console.log(max)
 
 let sumArr = [5,7,8,4,5,3,6]
 let sum =0
 for(const element of sumArr){
     sum += element
 }
-console.log(sum)
+// console.log(sum)
 
 
 let evenNum = [1,6,8,4,9,7,5]
-let final = []
+let finalArr = []
 for(const element of evenNum){
     if(element%2===0){
-        final.push(element)
+        finalArr.push(element)
     }
 }
-console.log(final)
+// console.log(finalArr)
 
 let a =evenNum[0]
 for(const element of evenNum){
@@ -96,7 +100,7 @@ for(const element of evenNum){
         a = element
     }
 }
-console.log(a)
+// console.log(a)
 
 
 let fruitArr = ['apple', 'banana', 'orange', 'kiwi']
@@ -116,7 +120,7 @@ for(const element of fruitArr){
     // capArr.push(finalString)
 }
 
-console.log(capArr)
+// console.log(capArr)
 let fruits = ['apple', 'banana', 'orange', 'apple', 'banana', 'orange'];
 
 let appleCount = 0
@@ -126,7 +130,7 @@ for(const element of fruits){
         appleCount = appleCount +1
     }
 }
-console.log(appleCount)
+// console.log(appleCount)
  let bananaCount =0
 
 for(const element of fruits){
@@ -135,14 +139,14 @@ for(const element of fruits){
         bananaCount = bananaCount +1
     }
 }
-console.log(bananaCount)
+// console.log(bananaCount)
 
 let orangeCount = 0
 for(const element of fruits){
     if(element === "orange")
     orangeCount = orangeCount +1
 }
-console.log(orangeCount)
+// console.log(orangeCount)
 
 
 

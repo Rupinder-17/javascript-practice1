@@ -96,9 +96,29 @@
     
     ]
 
+    for(const element of students){
+      console.log(`${element.name} ,${element.age} , ${element.student_id} `)
+      for(const Course of element.courses){
+        // console.log(Course)
+        console.log(`Course : ${Course.course_name} `)
+        for(const grade of Course.grades){
+          console.log(`${grade.semester} , Grade:${grade.grade}`)
+        }
+      }
+      for(const address in element.address){
+        console.log(`${address} : ${element.address[address]}`)
+      }
+      for(const  contact_info in element.contact_info ){
+        console.log(`${contact_info} : ${element.contact_info[contact_info]}`)
+      }
+     
+      }
+
+    
+
     // console.log(students[0].name.courses[0])
   // console.log(students)
-let student = students[0].name
+// let student = students[0].name
 // console.log(student)
 //  console.log(students[0].courses[0].course_name)
 // console.log(students[0].courses[0].grades[0].semester)
@@ -107,9 +127,4 @@ let student = students[0].name
 // John Doe, Introduction to Computer Science, Spring 2023, Grade : A, john.doe@example.com 
 
 // Jane Smith, Introduction to Computer Science, Spring 2023, Course ID : MATH201,  john.doe@example.com
-console.log(students[1].name)
-console.log(students[0].courses[0].course_name)
-
-console.log(students[0].courses[1].course_id)
-console.log(students[0].contact_info.email)
-console.log(`${students[0].name}, ${students[0].courses[0].course_name}, Grade : ${students[0].courses[0].grades[0].grade}, ${students[0].contact_info.email}`)
+//
