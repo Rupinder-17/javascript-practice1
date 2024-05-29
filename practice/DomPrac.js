@@ -1,5 +1,7 @@
 // create element
 
+
+
 const ulTag = document.querySelector("ul")
 console.log(ulTag)
 const liTag = document.createElement("li")
@@ -18,6 +20,10 @@ imageTag.setAttribute("src", "https://demo2.themelexus.com/delicioz/wp-content/u
 console.log(imageTag)
 imageTag.setAttribute("width", "180px")
 imageTag.setAttribute("height", "200px")
+// imageTag.setAttribute("border", "12px")
+imageTag.style.border = "5px solid red"
+imageTag.style.padding = "5px"
+
 
 const del1 = document.querySelectorAll("li")
 console.log("delete list", del1)
