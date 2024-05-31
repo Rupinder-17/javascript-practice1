@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+            margin: auto;
+            text-align: center;
+            background-color: rgb(170, 197, 219);
+            width: 40%;
+            height: 55vh;
+            border-radius: 15px;
+            box-shadow: 1px 1px 50px 1px rgb(226, 226, 241);
+        }
+
+        .img {
+            border-radius: 90px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            margin-top: 60px;
+        }
+
+        #addFriendBtn,
+        #removeFriendBtn {
+            padding: 9px 15px;
+            background-color: rgb(19, 19, 171);
+            font-size: 20px;
+            color: aliceblue;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .div1 {
+            /* background-color: blueviolet; */
+            height: 40px;
+        }
+
+        .friend {
+            font-size: 40px;
+            color: rgb(51, 119, 84);
+        }
+
+        .unFriend {
+            color: rgb(193, 41, 41);
+            font-size: 40px;
+        }
+
+        /* .image {
+            position: relative;
+        }
+
+        .text {
+            position: absolute;
+            top: 10px;
+            left: 190px;
+            opacity: 0;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="image">
+            <img src="/images/henry.avif" alt="" width="150px" height="140px" class="img">
+            <div class="text">
+                <h2>Henery Willson</h2>
+            </div>
+            <div class="div1">
+                <span id="status" class="unFriend">unknown</span>
+            </div>
+        </div>
+        <div class="btn">
+            <button id="addFriendBtn">Add Friend</button>
+            <button id="removeFriendBtn"> Remove Friend</button>
+        </div>
+    </div>
+    <script src="Events.js"></script>
+</body>
+
+</html>

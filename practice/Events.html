@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1></h1>
+    <button onclick="sayhello()">click me</button>
+    <button id="btn">click here</button>
+    <script>
+        // const sayhello= ()=>{
+
+        // }
+        const head =  document.querySelector("h1")
+        const btn = document.getElementById("btn")
+        btn.addEventListener("click" , sayhello)
+        function sayhello() {
+            // alert("hello ")
+            //    const iscomfirm = confirm("afre you sure")
+            //    console.log(iscomfirm)
+            const name = prompt("please enter your name")
+            console.log(name)
+            head.innerText = name
+            // console.log("alert")
+        }
+    </script>
+    <script src="Events.js"></script>
+</body>
+</html>
