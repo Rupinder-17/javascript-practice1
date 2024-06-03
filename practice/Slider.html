@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+    <style>
+        .main {
+            width: 53%;
+            border: 1px solid;
+            height: 80vh;
+            margin: auto;
+        }
+        .sectionOne {
+            position: relative;
+        }
+        .arrow {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            gap: 700px;
+            top: 50%;
+        }
+        .fa-light{
+        color: rgb(18, 18, 115);
+        font-size: 30px;
+        padding: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="sectionOne">
+            <div>
+                <img src="/images/henry.avif" alt="" width="805px" height="584px" id="img">
+                <h1 id="name"></h1>
+            </div>
+            <div class="arrow">
+                <p><i class="fa-light fa-arrow-left" id="prev"></i></p>
+                <p><i class="fa-light fa-arrow-right" id="next"></i></p>
+            </div>
+        </div>
+    </div>
+    <script src="Slider.js"></script>
+</body>
+</html>

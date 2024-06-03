@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main{
+            border:  1px solid;
+            margin: auto;
+            text-align: center;
+            width: 50%;
+            height: 55vh;
+        }
+        #image{
+            margin-top: 20px;
+        }
+        .sectionOne{
+            position: relative;
+        }
+        #heart1{
+            position: absolute;
+            top: 50%;
+            left: 48%;
+            opacity: 0; 
+            transition: all 2s;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="main">
+        <div class="sectionOne">
+            <div>
+                <img src="/images/smith.jpg" alt="" width="170px" id="image" >
+            </div>
+            <div  class="redHeart">
+                  <span class="heart" id="heart1"> ❤️</span>
+            </div>
+            <h2>Henery</h2>
+        </div>
+    </div>
+    <script src="ClickDEvents.js"></script>
+</body>
+</html>
