@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Question</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script src="https://cdn.tailwindcss.com"></script>
+     <style>
+         body {
+            font-family: "Playwrite SK", cursive;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
+     </style>
+    <style>
+        #container{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+             align-items: center;
+        }
+        .ullistt{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 24px;
+            
+        }
+        .listItem{
+            background: #f7f3f3;
+        
+        }
+        .listItem:hover{
+            background: rgb(239, 212, 160);
+            
+        }
+
+        
+        
+
+    </style>
+</head>
+<body>
+    <div id="container" class = " bg-blue-100 "> 
+        <div id="questioncontainer" class="main bg-white shadow-md rounded-sm border   w-96 h-72 space-y-5 px-5 ">
+
+        </div>
+        <div id="scoreContainer" class=" bg-white shadow-md rounded-sm border  h-56 w-80  space-y-9 hidden">
+            <h1 id="score" class="text-xl px-6"></h1>
+            <span id="emoji" class="block text-center text-5xl"></span>
+            <button id="btn"  class="bg-blue-600 px-7 py-2 text-center ml-16">Start again</button>
+        </div>
+    </div>
+    <script src="Quiz.js"></script>
+</body>
+</html>

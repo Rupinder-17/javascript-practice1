@@ -55,8 +55,8 @@ for(const element of numb){
     // console.log(element)
     if(element<minimum){
 
-        console.log(element)
-        console.log(minimum)
+        // console.log(element)
+        // console.log(minimum)
         minimum= element
         // console.log(minimum=element)
     }
@@ -147,12 +147,53 @@ for(const element of fruits){
     orangeCount = orangeCount +1
 }
 // console.log(orangeCount)
+function printarray(n){
+    let arr =[]
+    for(let index =0; index <n; index++){
+        arr.push(index)
+    }
+    return arr
+}
+ console.log(printarray(3))
+ console.log(printarray(5))
+ console.log(printarray(8))
+ console.log(printarray(9))
 
+function seriresResistance(resistances){
+    let sumResistance = 0
+    for(let index =0; resistances.length; index++){
+        sumResistance += resistances[index]
+    }
+    let units = sumResistance === 1 ? "ohm" : "ohms"
+    return `${sumResistance} ${units}`;
+}
+console.log(seriresResistance(2,4))
+// console.log(seriresResistance([1,2,3]))
 
+function countingChar( char, str){
+    let count = 0
+    for(let i= 0 ; i<str.length; i++){
+        if(str[i]===char){
+            count++
+        }
+    }
+    return count
+}
+let result = countingChar("g","gg")
+console.log(result)
 
+function findNumber(interger){
+    let numb = []
+    for(let index= 0; index<interger.length;index++){
+        if(typeof interger[index] === "string"){
+            numb.push(interger[index])
+        }
+    }
+    return numb
 
+}
 
-
+console.log(findNumber(["fjkdfskfskfs",8,6,8,9,"opoo"]))
     
 
 

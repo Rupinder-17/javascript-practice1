@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+            width: 100wh;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: cadetblue;
+            position: relative;
+        }
+
+        .subClass {
+            width: 20vw;
+            height: 33vh;
+            border: 1px solid;
+        }
+
+        .imagetag {
+            width: 35px;
+            height: 40px;
+            border-radius: 100px;
+        }
+
+        #userList {
+            list-style: none;
+            padding-left: 14px;
+        }
+
+        .userclassList {
+            border-bottom: 1px solid;
+        }
+        #textData{
+            width: fit-content;
+            height: fit-content;
+            position: absolute;
+            background-color: black;
+            color: aliceblue;
+            padding: 10px 13px;
+            border-radius: 40%;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="subClass">
+            <ul id="userList">
+
+            </ul>
+        <input type="text" id="firstname">
+
+        </div>
+    </div>
+    <script>
+        const userArray = [
+            {
+                image: "/images/henry.avif",
+                name: " Henry"
+            },
+            {
+                image: "/images/lady.avif",
+                name: "beki-lokamey"
+            },
+            {
+                image: "/images/leonard.avif",
+                name: "Leonard"
+            },
+            {
+                image: "/images/Whitney.avif",
+                name: "Whitney"
+            },
+            {
+                image: "/images/five.jpg",
+                name: "Leo Goerge"
+            },
+        ]
+
+        function userlist(element) {
+            const userList = document.getElementById("userList")
+            userArray.forEach(user => {
+                const listItem = document.createElement("li")
+                listItem.classList.add("userclassList")
+                listItem.setAttribute("item-name", user.name)
+                const userImage = document.createElement("img")
+                userImage.setAttribute("class", "imagetag")
+                userImage.src = user.image
+                const userName = document.createTextNode(user.name)
+                // userName.setAttribute("class","name")
+                listItem.appendChild(userImage)
+                listItem.appendChild(userName)
+                userList.appendChild(listItem)
+            })
+
+        }
+        userlist(userArray)
+
+        const NameTag = document.getElementById("textData")
+
+        const classList = document.querySelectorAll(".userclassList")
+        
+        classList.forEach(items => {
+            items.addEventListener("mouseenter", function () {
+                textName = this.getAttribute("item-name")
+                console.log(textName)
+                NameTag.textContent = textName
+                NameTag.style.display = "block"
+            })
+            items.addEventListener("mouseleave", function () {
+                NameTag.style.display = "none"
+            })
+            items.addEventListener("mousemove", function(e){
+                NameTag.style.top = `${e.clientY}px`
+                NameTag.style.left = `${e.clientX}px`
+            })
+        })
+
+
+
+
+    </script>
+</body>
+
+</html>

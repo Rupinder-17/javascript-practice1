@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .main {
+            width: 18%;
+            height: fit-content;
+            /* background-color: rgb(200, 200, 222); */
+            position: relative;
+            border: 1px solid;
+        }
+
+        #search {
+            width: 100%;
+            padding: 7px;
+
+
+        }
+
+        .imgList {
+            width: 45px;
+            height: 53px;
+            border-radius: 100px;
+        }
+
+        #list {
+            width: 20vw;
+            height: 40vh;
+            /* border: 1px solid; */
+            list-style: none;
+            padding-inline-start: 0;
+            /* border: 2px solid; */
+
+        }
+
+        #user-image {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            display: none;
+            border-radius: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <input type="search" name="" id="search" placeholder="Search">
+            <ul id="list">
+
+            </ul>
+            <img src="" alt="" id="user-image">
+        </div>
+    </div>
+    <script>
+        const userArray = [
+            {
+                image: "/images/henry.avif",
+                name: " Henry"
+            },
+            {
+                image: "/images/lady.avif",
+                name: "beki-lokamey"
+            },
+            {
+                image: "/images/leonard.avif",
+                name: "Leonard"
+            },
+            {
+                image: "/images/Whitney.avif",
+                name: "Whitney"
+            },
+            {
+                image: "/images/five.jpg",
+                name: "Leo Goerge"
+            },
+        ]
+
+        function userImages(user) {
+            const userList = document.getElementById("list")
+
+            userList.innerHTML = ""
+
+            // console.log(userList)
+            user.forEach(items => {
+                const createlist = document.createElement("li")
+                // console.log(createlist)
+                createlist.classList.add("listClass")
+                createlist.setAttribute("data-value", items.image)
+                const userimage = document.createElement("img")
+                userimage.setAttribute("class", "imgList")
+                // console.log(userimage)
+                userimage.src = items.image
+                const userName = document.createTextNode(items.name)
+                createlist.appendChild(userimage)
+                createlist.appendChild(userName)
+                userList.appendChild(createlist)
+            })
+
+        }
+        userImages(userArray)
+        const userimage2 = document.getElementById("user-image")
+
+        function eventsofMouse() {
+            const allItems = document.querySelectorAll(".listClass")
+            allItems.forEach((element) => {
+                element.addEventListener("mouseenter", function () {
+                    const imagelink = this.getAttribute("data-value")
+                    console.log(imagelink)
+                    userimage2.src = imagelink
+                    userimage2.style.display = "block"
+                })
+                element.addEventListener("mouseleave", function () {
+                    userimage2.style.display = "none"
+                })
+                element.addEventListener("mousemove", function (e) {
+                    userimage2.style.top = `${e.clientY}px`
+                    userimage2.style.left = `${e.clientX}px`
+                })
+            })
+        }
+        eventsofMouse();
+
+        const filterData = document.getElementById("search")
+        filterData.addEventListener("input", function () {
+            const findvalue = this.value.toLowerCase()
+
+            const valueoffilter = userArray.filter((elm) => {
+                if (elm.name.toLowerCase().includes(findvalue)) {
+                    return elm
+                }
+            });
+            console.log(valueoffilter)
+            userImages(valueoffilter);
+            eventsofMouse()
+        })
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        #user-list {
+            width: 20vw;
+            height: 40vh;
+            border: 1px solid;
+            list-style: none;
+            padding-inline-start: 0;
+            border: 2px solid;
+        }
+
+        .imageclass {
+            width: 45px;
+            height: 53px;
+            border-radius: 100px;
+        }
+
+        .userClass {
+            border-top: 1px solid;
+            position: relative;
+        }
+
+        #image {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            display: none;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <ul id="user-list">
+
+        </ul>
+        <input type="text" id="firstname">
+    </div>
+    <script>
+
+        // const NameTag = document.querySelector("h4")
+        const userArray = [
+            {
+                image: "/images/henry.avif",
+                name: " Henry"
+            },
+            {
+                image: "/images/lady.avif",
+                name: "beki-lokamey"
+            },
+            {
+                image: "/images/leonard.avif",
+                name: "Leonard"
+            },
+            {
+                image: "/images/Whitney.avif",
+                name: "Whitney"
+            },
+            {
+                image: "/images/five.jpg",
+                name: "Leo Goerge"
+            },
+        ]
+        function userName(user) {
+            const userlist = document.getElementById("user-list")
+            userArray.forEach(user => {
+                const users = document.createElement("li")
+                console.log(users)
+
+                users.classList.add("userClass");
+                users.setAttribute("data-name", user.name);
+
+                // Again create img tag
+                const userImage = document.createElement("img")
+                userImage.src = user.image
+                userImage.setAttribute("class", "imageclass")
+                userImage.name = user.name
+                const userName1 = document.createTextNode(user.name)
+                console.log("name",userName1)
+                users.appendChild(userImage)
+                users.appendChild(userName1)
+                userlist.appendChild(users)
+            })
+        }
+        userName(userArray)
+        
+        
+        const userinput = document.getElementById("firstname")
+
+        const allListitems = document.querySelectorAll(".userClass")
+
+        allListitems.forEach(item => {
+            item.addEventListener("mouseenter", () => {
+                const imagename = item.getAttribute("data-name")
+                console.log(imagename)
+                userinput.value = imagename
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        #user-list {
+            width: 20vw;
+            height: 40vh;
+            border: 1px solid;
+            list-style: none;
+            padding-inline-start: 0;
+            border: 2px solid;
+        }
+
+        .imageclass {
+            width: 45px;
+            height: 53px;
+            border-radius: 100px;
+        }
+
+        .userClass {
+            border-top: 1px solid;
+            position: relative;
+        }
+
+        #image {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <ul id="user-list">
+
+        </ul>
+        <img src="" alt="" id="image" width="110px" style="border-radius: 100%;">
+    </div>
+    <script>
+
+        // const NameTag = document.querySelector("h4")
+        const userArray = [
+            {
+                image: "/images/henry.avif",
+                name: " Henry"
+            },
+            {
+                image: "/images/lady.avif",
+                name: "beki-lokamey"
+            },
+            {
+                image: "/images/leonard.avif",
+                name: "Leonard"
+            },
+            {
+                image: "/images/Whitney.avif",
+                name: "Whitney"
+            },
+            {
+                image: "/images/five.jpg",
+                name: "Leo Goerge"
+            },
+        ]
+        function userName(users) {
+            
+            const userlist = document.getElementById("user-list")
+            userArray.forEach(user => {
+                const users = document.createElement("li")
+                users.classList.add("userClass");
+                users.setAttribute("data-image", user.image);
+
+                // Again create img tag
+                const userImage = document.createElement("img")
+                userImage.src = user.image
+                userImage.setAttribute("class", "imageclass")
+                userImage.name = user.name
+                const userName = document.createTextNode(user.name)
+                users.appendChild(userImage)
+                users.appendChild(userName)
+                userlist.appendChild(users)
+            })
+        }
+        userName(userArray)
+
+        const boxImage = document.getElementById("image")
+
+        const allListitems = document.querySelectorAll(".userClass")
+        allListitems.forEach(item => {
+            item.addEventListener("mouseenter", () => {
+                const imagelink = item.getAttribute("data-image")
+                console.log(imagelink)
+                boxImage.src = imagelink
+                boxImage.style.display = "block"
+
+                item.addEventListener("mouseleave", function () {
+                    boxImage.style.display = "none"
+                })
+                item.addEventListener("mousemove", function (e) {
+                    boxImage.style.top = `${e.clientY}px`
+                    boxImage.style.left = `${e.clientX}px`
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -7,14 +7,35 @@ const imageArray = [{ img: "/images/smith.jpg", name: "Hennery" },
 ]
 
 console.log(imageArray)
+
 const imageTag = document.getElementById("img")
 // console.log(imageTag);
 const nextArrow = document.getElementById("next")
 // console.log(nextArrow)
 const prevArrow = document.getElementById("prev")
-const name1 = document.getElementById("name")
 
+const name1 = document.getElementById("name")
+const listItem = document.getElementById("list")
+
+// imageTag.setAttribute("src", imageArray[0].img)
+// name1.textContent = imageArray[0].name
 let newImage = 0
+
+let indicator = 0
+    // for (let index = 0; index < imageArray.length; index++) {
+    //     const litag1 = document.createElement("div")
+    //     listItem.appendChild(litag1)
+    //     litag1.setAttribute("class", "list2")
+    //     indicator = listItem.children
+    //     console.log(indicator)
+    //     if (newImage == index) {
+    //         indicator[index].style.opacity = 1
+    //     }
+    //     else {
+    //         indicator[index].style.opacity = 0.3
+    //     }
+    // }
+
 function nextImage() {
     let card = imageArray[newImage]
     console.log(card);
@@ -25,7 +46,22 @@ function nextImage() {
     if (newImage == imageArray.length) {
         newImage = 0
     }
+    let indicatorItem = '';
+    for (let itemIndex in imageArray) {
+        if (itemIndex == newImage) {
+            indicatorItem += '<div class="list2" style="opacity:1"></div>'
+        } else {
+            indicatorItem += '<div class="list2"></div>'
+        }
+    }
+    // console.log(indicatorItem);
+    listItem.innerHTML = indicatorItem;
 }
+const interval = setInterval(function () {
+    // method to be executed;
+    // nextImage()
+    // console.log(interval)
+}, 1000);
 nextArrow.addEventListener("click", nextImage)
 prevArrow.addEventListener("click", function () {
     let card1 = imageArray[newImage]
@@ -33,9 +69,23 @@ prevArrow.addEventListener("click", function () {
     imageTag.src = card1.img
     newImage--
     if (newImage == -1) {
-        newImage = 4
+        newImage = imageArray.length - 1
     }
-})
+    let indicatorItem1 = '';
+    for (let itemIndex in imageArray) {
+        if (itemIndex == newImage) {
+            indicatorItem1 += '<div class="list2" style="opacity:1"></div>'
+        } else {
+            indicatorItem1 += '<div class="list2"></div>'
+        }
+    }
+    console.log(indicatorItem1);
+    listItem.innerHTML = indicatorItem1;
+}
+)
+
+
+
 
 
 

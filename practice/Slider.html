@@ -13,9 +13,11 @@
             height: 80vh;
             margin: auto;
         }
+
         .sectionOne {
             position: relative;
         }
+
         .arrow {
             display: flex;
             justify-content: space-between;
@@ -23,19 +25,43 @@
             gap: 700px;
             top: 50%;
         }
-        .fa-light{
-        color: rgb(18, 18, 115);
-        font-size: 30px;
-        padding: 14px;
+
+        .fa-light {
+            color: rgb(241, 241, 248);
+            font-size: 45px;
+            padding: 8px 10px;
+        }
+
+        #list {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+        }
+
+        .list2 {
+            height: 5px;
+            width: 25px;
+            background-color: rgb(239, 234, 243);
+            border-radius: 3px;
+            opacity: 0.4;
+        }
+
+        .list1 {
+            position: absolute;
+            transform: translate(369px, -131px);
         }
     </style>
 </head>
+
 <body>
     <div class="main">
         <div class="sectionOne">
             <div>
-                <img src="/images/henry.avif" alt="" width="805px" height="584px" id="img">
+                <img src="/images/smith.jpg" alt="" width="805px" height="584px" id="img">
                 <h1 id="name"></h1>
+            </div>
+            <div class="list1">
+                <div id="list"></div>
             </div>
             <div class="arrow">
                 <p><i class="fa-light fa-arrow-left" id="prev"></i></p>
@@ -45,4 +71,5 @@
     </div>
     <script src="Slider.js"></script>
 </body>
+
 </html>
