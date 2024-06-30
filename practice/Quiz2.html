@@ -9,16 +9,27 @@
 </head>
 
 <body>
-    <div id="container" class="bg-cyan-200 h-screen w-full  flex  justify-center ">
-        <div id="subContnaier" class="w-96 h-48 bg-gray-300 space-y-4 ">
-            <!-- <h3>scoredata</h3> -->
+    <label for="file" >Downloading progress:</label>
+    <progress id="file" value="" max="" class=""></progress>
+    <div class="text-center">
+        <button id="Quiz-game" class="bg-black text-gray-200 px-5 py-2">Start Quiz Game</button>
+        <div id="inputContainer" class="px-5 py-6 hidden">
+            <input type="text" id="firstName" class="border px-5 ">
+            <button id="submit">submit</button>
         </div>
 
-        <div id="scoreContainer"
-            class="hidden text-center w-80 h-72 border border-dashed border-gray-400 bg-slate-100 space-y-10">
-            <h1 class="heading"></h1>
-            <p id="emoji"></p>
-            <button id="Startbutton" class="bg-blue-700 px-7 py-2 text-center">Start Again</button>
+        <div id="container" class="bg-cyan-200 h-screen w-full  flex  justify-center ">
+
+            <div id="subContnaier" class="w-96 h-48 bg-gray-300 space-y-4 ">
+
+            </div>
+
+            <div id="scoreContainer"
+                class="hidden text-center w-80 h-72 border border-dashed border-gray-400 bg-slate-100 space-y-10">
+                <h1 class="heading"></h1>
+                <p id="emoji"></p>
+                <button id="Startbutton" class="bg-blue-700 px-7 py-2 text-center">Start Again</button>
+            </div>
         </div>
     </div>
     <script>
@@ -51,27 +62,43 @@
         ];
 
         let questionIndex = 0;
-        
+        let score = parseInt(localStorage.getItem("score"))
         let StringQuestion = JSON.stringify(questions)
-        // localStorage.setItem("index", questionIndex)
-        // localStorage.setItem("score", score)
-
-        // let scoredata = parseInt(localStorage.getItem(score))
-        // localStorage.setItem("score", scoredata)
-
-        // localStorage.setItem("questions", StringQuestion)
-        // let GetDataStr = localStorage.getItem("questions")
-        // console.log(GetDataStr)
-
         const mainContainer = document.getElementById("container")
         const subContainer = document.getElementById("subContnaier")
         const scoreData = document.getElementById("scoreContainer")
         const headingData = document.querySelector(".heading")
         const StartButton = document.querySelector("#Startbutton")
         const emoji = document.getElementById("emoji")
+        const inputContainer = document.getElementById("inputContainer")
 
-        let score = parseInt(localStorage.getItem("score"))
+        const firstName = document.getElementById("firstName")
+        console.log("first", firstName)
 
+        const submitButton = document.getElementById("submit")
+        submitButton.addEventListener("click", function () {
+            let name = firstName.value;
+            localStorage.setItem("name", name)
+            subContainer.classList.remove("hidden")
+            inputContainer.classList.add("hidden")
+            QuestionArray(0)
+
+        })
+
+
+        const QuizStart = document.getElementById("Quiz-game")
+        QuizStart.classList.remove("hidden")
+        QuizStart.addEventListener("click", function () {
+            subContainer.classList.add("hidden")
+            QuizStart.classList.add("hidden")
+            inputContainer.classList.remove("hidden")
+        })
+
+        
+        subContainer.classList.add("hidden")
+        const progressData = document.getElementById("file")
+        progressData.setAttribute("max", questions.length)
+       
         // background colores 
         const correctAnswer = "bg-cyan-400"
         const inCorrectAnswer = "bg-red-400"
@@ -93,45 +120,36 @@
                 }
             }
 
-            let currentQuestion = questions[index]
+            const currentQuestion = questions[index]
             const heading = document.createElement("h1")
             heading.classList.add("heading")
             heading.style.fontSize = "23px"
-            // heading.style.color = "red"
             heading.innerText = currentQuestion.question
-            // console.log(heading)
+            console.log(heading)
             const divContainer = document.createElement("div")
 
             currentQuestion.options.forEach(item => {
-                // console.log(item)
                 const button = document.createElement("button")
                 button.classList.add("list")
-                // button.classList.add("bg-white")
                 button.style.display = "flex"
-                button.innerText = item
+                button.innerText = item;
                 divContainer.appendChild(button)
             })
             subContainer.appendChild(heading)
             subContainer.appendChild(divContainer)
 
             const listItem = document.querySelectorAll(".list")
-            listItem.forEach((element) => {
+            listItem.forEach(element => {
+
                 element.addEventListener("click", function () {
                     if (element.innerHTML === currentQuestion.answer) {
                         score++
                         localStorage.setItem("score", score)
-                        // if(score ===  3 ){
-                        //     localStorage.setItem("index", index +1)
-                        //     location.reload()
-                        //     return
-
-                        // }
                         mainContainer.classList.remove(BydefaultColor)
                         mainContainer.classList.remove(inCorrectAnswer)
                         mainContainer.classList.add(correctAnswer)
                     }
                     else {
-                        // console.log("wrong answere")
                         mainContainer.classList.remove(BydefaultColor)
                         mainContainer.classList.remove(correctAnswer)
                         mainContainer.classList.add(inCorrectAnswer)
@@ -143,34 +161,40 @@
                     }, 1000)
                     localStorage.setItem("index", index + 1)
                     QuestionArray(index + 1)
+                    let progressValue = index + 1
+                    console.log("progresss", progressValue)
+                    progressData.setAttribute("value", progressValue)
                 })
             })
         }
-
         StartButton.addEventListener("click", function () {
-            QuestionArray(0)
             scoreData.classList.add("hidden")
             subContainer.classList.remove("hidden")
             score = 0
+            questionIndex = 0
             localStorage.setItem("score", 0)
-
             localStorage.setItem("index", 0)
-        })
-
-        let indexData = parseInt(localStorage.getItem("index"))
-        if (indexData != null && indexData > 0) {
-            QuestionArray(indexData)
-        }
-        else {
+            progressData.value = 0
             QuestionArray(0)
-        }
-        // QuestionArray(questionIndex)
-
-
-
-
-
+        })
+        let indexData = parseInt(localStorage.getItem("index"))
+        QuestionArray(indexData)
+        // if (indexData != null && indexData > 0) {
+        // }
+        // else {
+        //     QuestionArray(0)
+        // }
     </script>
 </body>
 
 </html>
+
+
+
+1 Start with a "Start Quiz Game" button. When users click on the button, an input field should open.
+
+2 Users can enter their name in the input field to start their game.
+
+3 Their names should be stored in localStorage to record their progress.
+
+4 Their progress should be displayed on the screen while they play the quiz game.
