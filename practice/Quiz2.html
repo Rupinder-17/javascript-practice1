@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <label for="file" >Downloading progress:</label>
+    <label for="file">Downloading progress:</label>
     <progress id="file" value="" max="" class=""></progress>
     <div class="text-center">
         <button id="Quiz-game" class="bg-black text-gray-200 px-5 py-2">Start Quiz Game</button>
@@ -60,6 +60,8 @@
                 answer: "100°C",
             },
         ];
+        const arr1 = []
+        
 
         let questionIndex = 0;
         let score = parseInt(localStorage.getItem("score"))
@@ -78,13 +80,19 @@
         const submitButton = document.getElementById("submit")
         submitButton.addEventListener("click", function () {
             let name = firstName.value;
+            let user = {"name":name,}
+            arr1.push(user)
+            //  localStorage.setItem("users", JSON.stringify(users));
+            let users = JSON.parse(localStorage.getItem("arr1"))
+            localStorage.setItem("users", users)
+            let userString = JSON.stringify(arr1)
+            localStorage.setItem("user" , userString)
             localStorage.setItem("name", name)
             subContainer.classList.remove("hidden")
             inputContainer.classList.add("hidden")
             QuestionArray(0)
 
         })
-
 
         const QuizStart = document.getElementById("Quiz-game")
         QuizStart.classList.remove("hidden")
@@ -94,21 +102,26 @@
             inputContainer.classList.remove("hidden")
         })
 
-        
+
         subContainer.classList.add("hidden")
         const progressData = document.getElementById("file")
         progressData.setAttribute("max", questions.length)
-       
+
+
         // background colores 
         const correctAnswer = "bg-cyan-400"
         const inCorrectAnswer = "bg-red-400"
         const BydefaultColor = "bg-cyan-200"
 
         function QuestionArray(index) {
-
             subContainer.innerHTML = ""
 
-            if (index >= questions.length) {
+            let progressValue = index + 1
+            console.log("progresss", progressValue)
+            progressData.setAttribute("value", progressValue)
+
+
+            if (index >= questions.length - 1) {
                 scoreData.classList.remove("hidden")
                 subContainer.classList.add("hidden")
                 headingData.innerText = `Quiz is completed: score:${score} / ${questions.length}`
@@ -120,16 +133,17 @@
                 }
             }
 
-            const currentQuestion = questions[index]
-            const heading = document.createElement("h1")
-            heading.classList.add("heading")
-            heading.style.fontSize = "23px"
-            heading.innerText = currentQuestion.question
-            console.log(heading)
+            const currentQuestion = questions[index];
+            const heading = document.createElement("h2");
+            heading.classList.add("heading");
+            heading.style.fontSize = "23px";
+            heading.innerText = currentQuestion.question;
+
             const divContainer = document.createElement("div")
 
             currentQuestion.options.forEach(item => {
                 const button = document.createElement("button")
+                console.log(button)
                 button.classList.add("list")
                 button.style.display = "flex"
                 button.innerText = item;
@@ -159,11 +173,8 @@
                         mainContainer.classList.remove(inCorrectAnswer)
                         mainContainer.classList.remove(correctAnswer)
                     }, 1000)
-                    localStorage.setItem("index", index + 1)
-                    QuestionArray(index + 1)
-                    let progressValue = index + 1
-                    console.log("progresss", progressValue)
-                    progressData.setAttribute("value", progressValue)
+                    localStorage.setItem("index",progressValue)
+                    QuestionArray(progressValue)
                 })
             })
         }
@@ -174,7 +185,7 @@
             questionIndex = 0
             localStorage.setItem("score", 0)
             localStorage.setItem("index", 0)
-            progressData.value = 0
+            progressData.value = 1
             QuestionArray(0)
         })
         let indexData = parseInt(localStorage.getItem("index"))
@@ -191,10 +202,10 @@
 
 
 
-1 Start with a "Start Quiz Game" button. When users click on the button, an input field should open.
+<!-- 1 Start with a "Start Quiz Game" button. When users click on the button, an input field should open.
 
 2 Users can enter their name in the input field to start their game.
 
 3 Their names should be stored in localStorage to record their progress.
 
-4 Their progress should be displayed on the screen while they play the quiz game.
+4 Their progress should be displayed on the screen while they play the quiz game. -->
