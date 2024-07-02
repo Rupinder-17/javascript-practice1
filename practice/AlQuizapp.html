@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div id="quiz-container" class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">Quiz App</h1>
+        <div id="question-container" class="mb-6"></div>
+        <div id="options-container" class="space-y-2"></div>
+        <button id="next-btn" class="mt-6 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300">Next</button>
+        <div id="result" class="mt-6 text-center font-bold text-xl hidden"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["Berlin", "Madrid", "Paris", "Rome"],
+                correctAnswer: "Paris"
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Mars", "Venus", "Jupiter", "Saturn"],
+                correctAnswer: "Mars"
+            },
+            {
+                question: "What is the largest mammal?",
+                options: ["African Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+                correctAnswer: "Blue Whale"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const questionContainer = document.getElementById('question-container');
+        const optionsContainer = document.getElementById('options-container');
+        const nextButton = document.getElementById('next-btn');
+        const resultContainer = document.getElementById('result');
+
+        function loadQuestion() {
+            const question = questions[currentQuestionIndex];
+            questionContainer.innerHTML = `<p class="font-semibold">${question.question}</p>`;
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerHTML = option;
+                button.classList.add('w-full', 'text-left', 'p-2', 'rounded', 'bg-gray-200', 'hover:bg-gray-300', 'transition', 'duration-300');
+                button.onclick = () => selectOption(option);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectOption(selectedOption) {
+            const question = questions[currentQuestionIndex];
+            optionsContainer.querySelectorAll('button').forEach(button => {
+                button.disabled = true;
+                if (button.innerHTML === selectedOption) {
+                    button.classList.remove('bg-gray-200', 'hover:bg-gray-300');
+                    if (selectedOption === question.correctAnswer) {
+                        button.classList.add('bg-green-500', 'text-white');
+                        score++;
+                    } else {
+                        button.classList.add('bg-red-500', 'text-white');
+                    }
+                } else if (button.innerHTML === question.correctAnswer) {
+                    button.classList.remove('bg-gray-200', 'hover:bg-gray-300');
+                    button.classList.add('bg-green-500', 'text-white');
+                }
+            });
+        }
+
+        function showNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            questionContainer.innerHTML = '';
+            optionsContainer.innerHTML = '';
+            nextButton.style.display = 'none';
+            resultContainer.classList.remove('hidden');
+            resultContainer.innerHTML = `You scored ${score} out of ${questions.length}!`;
+        }
+
+        nextButton.addEventListener('click', showNextQuestion);
+
+        loadQuestion();
+    </script>
+</body>
+</html>
