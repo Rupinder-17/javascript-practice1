@@ -11,16 +11,16 @@
 <body>
     <label for="file">Downloading progress:</label>
     <progress id="file" value="" max="" class=""></progress>
-    <div class="text-center">
+    <div class="text-center ">
         <button id="Quiz-game" class="bg-black text-gray-200 px-5 py-2">Start Quiz Game</button>
         <div id="inputContainer" class="px-5 py-6 hidden">
             <input type="text" id="firstName" class="border px-5 ">
             <button id="submit">submit</button>
         </div>
 
-        <div id="container" class="bg-cyan-200 h-screen w-full  flex  justify-center ">
+        <div id="container" class="bg-blue-100 h-screen w-full  flex  justify-center py-7">
 
-            <div id="subContnaier" class="w-96 h-48 bg-gray-300 space-y-4 ">
+            <div id="subContnaier" class="w-96 h-48 bg-blue-600 space-y-4 rounded-md  ">
 
             </div>
 
@@ -60,8 +60,19 @@
                 answer: "100°C",
             },
         ];
-        const arr1 = []
-        
+
+        let users = []
+        if (localStorage.getItem("userName")) {
+            users = JSON.parse(localStorage.getItem("userName"))
+        }
+        console.log(users)
+        let userScore = JSON.parse(localStorage.getItem("score"))
+        // console.log("bbbb", userIn)
+        if (localStorage.getItem("score")) {
+            userScore = JSON.parse(localStorage.getItem("score"))
+        }
+        console.log("userdata", userScore)
+
 
         let questionIndex = 0;
         let score = parseInt(localStorage.getItem("score"))
@@ -75,19 +86,19 @@
         const inputContainer = document.getElementById("inputContainer")
 
         const firstName = document.getElementById("firstName")
-        console.log("first", firstName)
 
         const submitButton = document.getElementById("submit")
         submitButton.addEventListener("click", function () {
             let name = firstName.value;
-            let user = {"name":name,}
-            arr1.push(user)
-            //  localStorage.setItem("users", JSON.stringify(users));
-            let users = JSON.parse(localStorage.getItem("arr1"))
-            localStorage.setItem("users", users)
-            let userString = JSON.stringify(arr1)
-            localStorage.setItem("user" , userString)
+            let user = { "name": name, "totalScore": userScore }
+            user.totalScore = userScore
+            users.push(user)
+            console.log(user)
+            localStorage.setItem("userName", JSON.stringify(users));
             localStorage.setItem("name", name)
+
+            // localStorage.setItem("totalscore", score)
+            // let totalScore =  parseInt(localStorage.getItem("totalScore"))
             subContainer.classList.remove("hidden")
             inputContainer.classList.add("hidden")
             QuestionArray(0)
@@ -101,17 +112,15 @@
             QuizStart.classList.add("hidden")
             inputContainer.classList.remove("hidden")
         })
-
-
         subContainer.classList.add("hidden")
         const progressData = document.getElementById("file")
         progressData.setAttribute("max", questions.length)
 
 
         // background colores 
-        const correctAnswer = "bg-cyan-400"
+        const correctAnswer = "bg-green-200"
         const inCorrectAnswer = "bg-red-400"
-        const BydefaultColor = "bg-cyan-200"
+        const BydefaultColor = "bg-blue-100"
 
         function QuestionArray(index) {
             subContainer.innerHTML = ""
@@ -124,6 +133,7 @@
             if (index >= questions.length - 1) {
                 scoreData.classList.remove("hidden")
                 subContainer.classList.add("hidden")
+
                 headingData.innerText = `Quiz is completed: score:${score} / ${questions.length}`
                 if (score > 3) {
                     emoji.innerText = "🥳"
@@ -137,6 +147,7 @@
             const heading = document.createElement("h2");
             heading.classList.add("heading");
             heading.style.fontSize = "23px";
+            heading.style.color = "white"
             heading.innerText = currentQuestion.question;
 
             const divContainer = document.createElement("div")
@@ -145,6 +156,7 @@
                 const button = document.createElement("button")
                 console.log(button)
                 button.classList.add("list")
+                button.classList.add('w-full', 'text-left', 'p-4', 'bg-gray-100', 'hover:bg-gray-300', 'transition', 'duration-300');
                 button.style.display = "flex"
                 button.innerText = item;
                 divContainer.appendChild(button)
@@ -159,7 +171,17 @@
                     if (element.innerHTML === currentQuestion.answer) {
                         score++
                         localStorage.setItem("score", score)
-                        mainContainer.classList.remove(BydefaultColor)
+
+
+                            /
+                            // let currentUser = localStorage.getItem("currentUser");
+                            // let users = JSON.parse(localStorage.getItem("users"));
+                            // let userIndex = users.find(user => user.name === currentUser);
+                            // if (userIndex !== -1) {
+                            //     users[userIndex].score = score;
+                            //     localStorage.setItem("users", JSON.stringify(users));
+                            // }
+                            mainContainer.classList.remove(BydefaultColor)
                         mainContainer.classList.remove(inCorrectAnswer)
                         mainContainer.classList.add(correctAnswer)
                     }
@@ -173,7 +195,7 @@
                         mainContainer.classList.remove(inCorrectAnswer)
                         mainContainer.classList.remove(correctAnswer)
                     }, 1000)
-                    localStorage.setItem("index",progressValue)
+                    localStorage.setItem("index", progressValue)
                     QuestionArray(progressValue)
                 })
             })
@@ -199,13 +221,3 @@
 </body>
 
 </html>
-
-
-
-<!-- 1 Start with a "Start Quiz Game" button. When users click on the button, an input field should open.
-
-2 Users can enter their name in the input field to start their game.
-
-3 Their names should be stored in localStorage to record their progress.
-
-4 Their progress should be displayed on the screen while they play the quiz game. -->
