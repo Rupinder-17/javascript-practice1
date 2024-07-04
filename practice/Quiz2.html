@@ -63,13 +63,13 @@
 
         let users = []
         if (localStorage.getItem("userName")) {
-            users = JSON.parse(localStorage.getItem("userName"))
+            users = localStorage.getItem("userName")
         }
         console.log(users)
-        let userScore = JSON.parse(localStorage.getItem("score"))
+        let userScore = localStorage.getItem("score")
         // console.log("bbbb", userIn)
         if (localStorage.getItem("score")) {
-            userScore = JSON.parse(localStorage.getItem("score"))
+            userScore = localStorage.getItem("score")
         }
         console.log("userdata", userScore)
 
@@ -91,7 +91,7 @@
         submitButton.addEventListener("click", function () {
             let name = firstName.value;
             let user = { "name": name, "totalScore": userScore }
-            user.totalScore = userScore
+            // user.totalScore = userScore
             users.push(user)
             console.log(user)
             localStorage.setItem("userName", JSON.stringify(users));
@@ -172,8 +172,6 @@
                         score++
                         localStorage.setItem("score", score)
 
-
-                            /
                             // let currentUser = localStorage.getItem("currentUser");
                             // let users = JSON.parse(localStorage.getItem("users"));
                             // let userIndex = users.find(user => user.name === currentUser);
