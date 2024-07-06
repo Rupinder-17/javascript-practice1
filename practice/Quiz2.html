@@ -1,221 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
+  </head>
 
-<body>
-    <label for="file">Downloading progress:</label>
+  <body>
+   
+    <div class="text-center">
+      <button id="Quiz-game" class="bg-black text-gray-200 px-5 py-2">
+        Start Quiz Game
+      </button>
+      <div id="inputContainer" class="px-5 py-6 hidden">
+        <input type="text" id="firstName" class="border px-5" />
+        <button id="submit">submit</button>
+      </div>
+
+      <div
+        id="container"
+        class="bg-blue-100 h-screen w-full flex justify-center py-7"
+      >
+        <div
+          id="subContnaier"
+          class="w-96 h-48 bg-blue-600 space-y-4 rounded-md"
+        >
+         <label for="file">Downloading progress:</label>
     <progress id="file" value="" max="" class=""></progress>
-    <div class="text-center ">
-        <button id="Quiz-game" class="bg-black text-gray-200 px-5 py-2">Start Quiz Game</button>
-        <div id="inputContainer" class="px-5 py-6 hidden">
-            <input type="text" id="firstName" class="border px-5 ">
-            <button id="submit">submit</button>
+    </div>
+
+        <div
+          id="scoreContainer"
+          class="hidden text-center w-80 h-72 border border-dashed border-gray-400 bg-slate-100 space-y-10"
+        >
+          <h1 class="heading"></h1>
+          <p id="emoji"></p>
+          <button id="Startbutton" class="bg-blue-700 px-7 py-2 text-center">
+            Start Again
+          </button>
         </div>
-
-        <div id="container" class="bg-blue-100 h-screen w-full  flex  justify-center py-7">
-
-            <div id="subContnaier" class="w-96 h-48 bg-blue-600 space-y-4 rounded-md  ">
-
-            </div>
-
-            <div id="scoreContainer"
-                class="hidden text-center w-80 h-72 border border-dashed border-gray-400 bg-slate-100 space-y-10">
-                <h1 class="heading"></h1>
-                <p id="emoji"></p>
-                <button id="Startbutton" class="bg-blue-700 px-7 py-2 text-center">Start Again</button>
-            </div>
-        </div>
+      </div>
     </div>
     <script>
-        const questions = [
-            {
-                question: "What is the capital of France? 🇫🇷",
-                options: ["Berlin", "Madrid", "Paris", "Rome"],
-                answer: "Paris",
-            },
-            {
-                question: "Which planet is known as the Red Planet? 🪐",
-                options: ["Earth", "Mars", "Jupiter", "Saturn"],
-                answer: "Mars",
-            },
-            {
-                question: "What is the largest ocean on Earth? 🌊",
-                options: ["Atlantic", "Indian", "Arctic", "Pacific"],
-                answer: "Pacific",
-            },
-            {
-                question: "Which country is famous for sushi? 🍣",
-                options: ["China", "Japan", "Korea", "Thailand"],
-                answer: "Japan",
-            },
-            {
-                question: "What is the boiling point of water? 💧",
-                options: ["90°C", "100°C", "110°C", "120°C"],
-                answer: "100°C",
-            },
-        ];
+      const questions = [
+        {
+          question: "What is the capital of France? 🇫🇷",
+          options: ["Berlin", "Madrid", "Paris", "Rome"],
+          answer: "Paris",
+        },
+        {
+          question: "Which planet is known as the Red Planet? 🪐",
+          options: ["Earth", "Mars", "Jupiter", "Saturn"],
+          answer: "Mars",
+        },
+        {
+          question: "What is the largest ocean on Earth? 🌊",
+          options: ["Atlantic", "Indian", "Arctic", "Pacific"],
+          answer: "Pacific",
+        },
+        {
+          question: "Which country is famous for sushi? 🍣",
+          options: ["China", "Japan", "Korea", "Thailand"],
+          answer: "Japan",
+        },
+        {
+          question: "What is the boiling point of water? 💧",
+          options: ["90°C", "100°C", "110°C", "120°C"],
+          answer: "100°C",
+        },
+      ];
 
-        let users = []
-        if (localStorage.getItem("userName")) {
-            users = localStorage.getItem("userName")
-        }
-        console.log(users)
-        let userScore = localStorage.getItem("score")
-        // console.log("bbbb", userIn)
-        if (localStorage.getItem("score")) {
-            userScore = localStorage.getItem("score")
-        }
-        console.log("userdata", userScore)
+      let users = [];
+      if (localStorage.getItem("userName")) {
+        users = JSON.parse(localStorage.getItem("userName"));
+      }
+      let score = 0
+      if(localStorage.getItem("score")){
+             score = parseInt(localStorage.getItem("score"));
+      }
 
+      let questionIndex = 0;
+      let StringQuestion = JSON.stringify(questions);
+      const mainContainer = document.getElementById("container");
+      const subContainer = document.getElementById("subContnaier");
+      const scoreData = document.getElementById("scoreContainer");
+      const headingData = document.querySelector(".heading");
+      const StartButton = document.querySelector("#Startbutton");
+      const emoji = document.getElementById("emoji");
+      const inputContainer = document.getElementById("inputContainer");
 
-        let questionIndex = 0;
-        let score = parseInt(localStorage.getItem("score"))
-        let StringQuestion = JSON.stringify(questions)
-        const mainContainer = document.getElementById("container")
-        const subContainer = document.getElementById("subContnaier")
-        const scoreData = document.getElementById("scoreContainer")
-        const headingData = document.querySelector(".heading")
-        const StartButton = document.querySelector("#Startbutton")
-        const emoji = document.getElementById("emoji")
-        const inputContainer = document.getElementById("inputContainer")
+      const firstName = document.getElementById("firstName");
 
-        const firstName = document.getElementById("firstName")
+      const submitButton = document.getElementById("submit");
+      submitButton.addEventListener("click", function () {
+        let name = firstName.value;
+        let user = {
+          name: name,
+          totalScore: score,
+          currentQuestionIndex: questionIndex,
+        };
+        users.push(user);
+        localStorage.setItem("userName", JSON.stringify(users));
+        localStorage.setItem("name", name);
+        subContainer.classList.remove("hidden");
+        inputContainer.classList.add("hidden");
+        QuestionArray(0);
+      });
 
-        const submitButton = document.getElementById("submit")
-        submitButton.addEventListener("click", function () {
-            let name = firstName.value;
-            let user = { "name": name, "totalScore": userScore }
-            // user.totalScore = userScore
-            users.push(user)
-            console.log(user)
-            localStorage.setItem("userName", JSON.stringify(users));
-            localStorage.setItem("name", name)
+      const QuizStart = document.getElementById("Quiz-game");
+      QuizStart.classList.remove("hidden");
+      QuizStart.addEventListener("click", function () {
+        subContainer.classList.add("hidden");
+        QuizStart.classList.add("hidden");
+        inputContainer.classList.remove("hidden");
+      });
+      subContainer.classList.add("hidden");
+      const progressData = document.getElementById("file");
+      progressData.setAttribute("max", questions.length);
 
-            // localStorage.setItem("totalscore", score)
-            // let totalScore =  parseInt(localStorage.getItem("totalScore"))
-            subContainer.classList.remove("hidden")
-            inputContainer.classList.add("hidden")
-            QuestionArray(0)
+      // background colores
+      const correctAnswer = "bg-green-200";
+      const inCorrectAnswer = "bg-red-400";
+      const BydefaultColor = "bg-blue-100";
 
-        })
+      function QuestionArray(index) {
+        subContainer.innerHTML = "";
 
-        const QuizStart = document.getElementById("Quiz-game")
-        QuizStart.classList.remove("hidden")
-        QuizStart.addEventListener("click", function () {
-            subContainer.classList.add("hidden")
-            QuizStart.classList.add("hidden")
-            inputContainer.classList.remove("hidden")
-        })
-        subContainer.classList.add("hidden")
-        const progressData = document.getElementById("file")
-        progressData.setAttribute("max", questions.length)
+        let progressValue = index +1;
+        console.log("progresss", progressValue);
+        progressData.setAttribute("value", progressValue );
 
+        if (index > questions.length - 1) {
+          scoreData.classList.remove("hidden");
+          subContainer.classList.add("hidden");
 
-        // background colores 
-        const correctAnswer = "bg-green-200"
-        const inCorrectAnswer = "bg-red-400"
-        const BydefaultColor = "bg-blue-100"
+          headingData.innerText = `Quiz is completed: score:${score} / ${questions.length}`;
+          if (score > 3) {
+            emoji.innerText = "🥳";
+          } else {
+            emoji.innerText = "🤦‍♀️";
+          }
+        } else {
+          const currentQuestion = questions[index];
+          const heading = document.createElement("h2");
+          heading.classList.add("heading");
+          heading.style.fontSize = "23px";
+          heading.style.color = "white";
 
-        function QuestionArray(index) {
-            subContainer.innerHTML = ""
+          heading.innerText = currentQuestion.question;
 
-            let progressValue = index + 1
-            console.log("progresss", progressValue)
-            progressData.setAttribute("value", progressValue)
+          const divContainer = document.createElement("div");
 
+          currentQuestion.options.forEach((item) => {
+            const button = document.createElement("button");
+            console.log(button);
+            button.classList.add("list");
+            button.classList.add(
+              "w-full",
+              "text-left",
+              "p-4",
+              "bg-gray-100",
+              "hover:bg-gray-300",
+              "transition",
+              "duration-300"
+            );
+            button.style.display = "flex";
+            button.innerText = item;
+            divContainer.appendChild(button);
+          });
+          subContainer.appendChild(heading);
+          subContainer.appendChild(divContainer);
 
-            if (index >= questions.length - 1) {
-                scoreData.classList.remove("hidden")
-                subContainer.classList.add("hidden")
-
-                headingData.innerText = `Quiz is completed: score:${score} / ${questions.length}`
-                if (score > 3) {
-                    emoji.innerText = "🥳"
-                }
-                else {
-                    emoji.innerText = "🤦‍♀️"
-                }
-            }
-
-            const currentQuestion = questions[index];
-            const heading = document.createElement("h2");
-            heading.classList.add("heading");
-            heading.style.fontSize = "23px";
-            heading.style.color = "white"
-            heading.innerText = currentQuestion.question;
-
-            const divContainer = document.createElement("div")
-
-            currentQuestion.options.forEach(item => {
-                const button = document.createElement("button")
-                console.log(button)
-                button.classList.add("list")
-                button.classList.add('w-full', 'text-left', 'p-4', 'bg-gray-100', 'hover:bg-gray-300', 'transition', 'duration-300');
-                button.style.display = "flex"
-                button.innerText = item;
-                divContainer.appendChild(button)
-            })
-            subContainer.appendChild(heading)
-            subContainer.appendChild(divContainer)
-
-            const listItem = document.querySelectorAll(".list")
-            listItem.forEach(element => {
-
-                element.addEventListener("click", function () {
+          const listItem = document.querySelectorAll(".list");
+          listItem.forEach((element) => {
+            element.addEventListener("click", function () {
+                 let currentUserName = localStorage.getItem("name");
+                let currentUserIndex = users.findIndex(
+                  (user) => user.name === currentUserName
+                );
+                if (currentUserIndex !== -1) {
                     if (element.innerHTML === currentQuestion.answer) {
-                        score++
-                        localStorage.setItem("score", score)
 
-                            // let currentUser = localStorage.getItem("currentUser");
-                            // let users = JSON.parse(localStorage.getItem("users"));
-                            // let userIndex = users.find(user => user.name === currentUser);
-                            // if (userIndex !== -1) {
-                            //     users[userIndex].score = score;
-                            //     localStorage.setItem("users", JSON.stringify(users));
-                            // }
-                            mainContainer.classList.remove(BydefaultColor)
-                        mainContainer.classList.remove(inCorrectAnswer)
-                        mainContainer.classList.add(correctAnswer)
+                        users[currentUserIndex].totalScore = score+1
                     }
-                    else {
-                        mainContainer.classList.remove(BydefaultColor)
-                        mainContainer.classList.remove(correctAnswer)
-                        mainContainer.classList.add(inCorrectAnswer)
-                    }
-                    setTimeout(function () {
-                        mainContainer.classList.add(BydefaultColor)
-                        mainContainer.classList.remove(inCorrectAnswer)
-                        mainContainer.classList.remove(correctAnswer)
-                    }, 1000)
-                    localStorage.setItem("index", progressValue)
-                    QuestionArray(progressValue)
-                })
-            })
+                    users[currentUserIndex].currentQuestionIndex = index
+                
+                  localStorage.setItem("userName", JSON.stringify(users));
+                }
+
+              if (element.innerHTML === currentQuestion.answer) {
+                score++;
+                localStorage.setItem("score", score);
+
+               
+                mainContainer.classList.remove(BydefaultColor);
+                mainContainer.classList.remove(inCorrectAnswer);
+                mainContainer.classList.add(correctAnswer);
+              } else {
+                mainContainer.classList.remove(BydefaultColor);
+                mainContainer.classList.remove(correctAnswer);
+                mainContainer.classList.add(inCorrectAnswer);
+              }
+              setTimeout(function () {
+                mainContainer.classList.add(BydefaultColor);
+                mainContainer.classList.remove(inCorrectAnswer);
+                mainContainer.classList.remove(correctAnswer);
+              }, 1000);
+
+            //   let indexFind = parseInt(localStorage.getItem("index"));
+            //   let nameUser = localStorage.getItem("name");
+            //   let currentUserQuestion = users.findIndex(
+            //     (item) => item.name === nameUser
+            //   );
+
+            //   if (currentUserQuestion !== 0) {
+            //     users[currentUserQuestion].currentQuestionIndex = indexFind;
+            //     localStorage.setItem("userName", JSON.stringify(users));
+            //   }
+
+              localStorage.setItem("index", progressValue);
+              QuestionArray(progressValue);
+            });
+          });
         }
-        StartButton.addEventListener("click", function () {
-            scoreData.classList.add("hidden")
-            subContainer.classList.remove("hidden")
-            score = 0
-            questionIndex = 0
-            localStorage.setItem("score", 0)
-            localStorage.setItem("index", 0)
-            progressData.value = 1
-            QuestionArray(0)
-        })
-        let indexData = parseInt(localStorage.getItem("index"))
-        QuestionArray(indexData)
-        // if (indexData != null && indexData > 0) {
-        // }
-        // else {
-        //     QuestionArray(0)
-        // }
+      }
+      StartButton.addEventListener("click", function () {
+        scoreData.classList.add("hidden");
+        subContainer.classList.remove("hidden");
+        score = 0;
+        questionIndex = 0;
+        localStorage.setItem("score", 0);
+        localStorage.setItem("index", 0);
+        progressData.value = 1;
+        QuestionArray(0);
+      });
+      let indexData = parseInt(localStorage.getItem("index"));
+      QuestionArray(indexData);
+      // if (indexData != null && indexData > 0) {
+      // }
+      // else {
+      //     QuestionArray(0)
+      // }
     </script>
-</body>
-
+  </body>
 </html>
