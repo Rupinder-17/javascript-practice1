@@ -8,8 +8,9 @@
   </head>
 
   <body>
-   
-    <div class="text-center">
+    <div class="text-center bg-slate-400 py-9">
+      <label for="file">Downloading progress:</label>
+      <progress id="file" value="" max="" class="hidden"></progress>
       <button id="Quiz-game" class="bg-black text-gray-200 px-5 py-2">
         Start Quiz Game
       </button>
@@ -18,17 +19,11 @@
         <button id="submit">submit</button>
       </div>
 
-      <div
-        id="container"
-        class="bg-blue-100 h-screen w-full flex justify-center py-7"
-      >
+      <div id="container" class="h-screen w-full flex justify-center py-7">
         <div
           id="subContnaier"
-          class="w-96 h-48 bg-blue-600 space-y-4 rounded-md"
-        >
-         <label for="file">Downloading progress:</label>
-    <progress id="file" value="" max="" class=""></progress>
-    </div>
+          class="w-96 h-48 bg-blue-700 space-y-4 rounded-md"
+        ></div>
 
         <div
           id="scoreContainer"
@@ -75,9 +70,9 @@
       if (localStorage.getItem("userName")) {
         users = JSON.parse(localStorage.getItem("userName"));
       }
-      let score = 0
-      if(localStorage.getItem("score")){
-             score = parseInt(localStorage.getItem("score"));
+      let score = 0;
+      if (localStorage.getItem("score")) {
+        score = parseInt(localStorage.getItem("score"));
       }
 
       let questionIndex = 0;
@@ -89,10 +84,10 @@
       const StartButton = document.querySelector("#Startbutton");
       const emoji = document.getElementById("emoji");
       const inputContainer = document.getElementById("inputContainer");
-
+      const progressData = document.getElementById("file");
       const firstName = document.getElementById("firstName");
-
       const submitButton = document.getElementById("submit");
+
       submitButton.addEventListener("click", function () {
         let name = firstName.value;
         let user = {
@@ -101,10 +96,13 @@
           currentQuestionIndex: questionIndex,
         };
         users.push(user);
+        console.log("userrrrr", users)
         localStorage.setItem("userName", JSON.stringify(users));
         localStorage.setItem("name", name);
         subContainer.classList.remove("hidden");
         inputContainer.classList.add("hidden");
+        progressData.classList.remove("hidden");
+
         QuestionArray(0);
       });
 
@@ -113,23 +111,28 @@
       QuizStart.addEventListener("click", function () {
         subContainer.classList.add("hidden");
         QuizStart.classList.add("hidden");
-        inputContainer.classList.remove("hidden");
+        const IsGamePlay = parseInt(localStorage.getItem("index"))
+        console.log(IsGamePlay);
+        if(IsGamePlay !== 0){
+        
+          inputContainer.classList.remove("hidden");
+        }
+      
       });
       subContainer.classList.add("hidden");
-      const progressData = document.getElementById("file");
       progressData.setAttribute("max", questions.length);
 
       // background colores
       const correctAnswer = "bg-green-200";
       const inCorrectAnswer = "bg-red-400";
-      const BydefaultColor = "bg-blue-100";
+      const BydefaultColor = "bg-gray-400";
 
       function QuestionArray(index) {
         subContainer.innerHTML = "";
 
-        let progressValue = index +1;
+        let progressValue = index;
         console.log("progresss", progressValue);
-        progressData.setAttribute("value", progressValue );
+        progressData.setAttribute("value", progressValue);
 
         if (index > questions.length - 1) {
           scoreData.classList.remove("hidden");
@@ -147,7 +150,6 @@
           heading.classList.add("heading");
           heading.style.fontSize = "23px";
           heading.style.color = "white";
-
           heading.innerText = currentQuestion.question;
 
           const divContainer = document.createElement("div");
@@ -175,25 +177,23 @@
           const listItem = document.querySelectorAll(".list");
           listItem.forEach((element) => {
             element.addEventListener("click", function () {
-                 let currentUserName = localStorage.getItem("name");
-                let currentUserIndex = users.findIndex(
-                  (user) => user.name === currentUserName
-                );
-                if (currentUserIndex !== -1) {
-                    if (element.innerHTML === currentQuestion.answer) {
-
-                        users[currentUserIndex].totalScore = score+1
-                    }
-                    users[currentUserIndex].currentQuestionIndex = index
-                
-                  localStorage.setItem("userName", JSON.stringify(users));
+              let currentUserName = localStorage.getItem("name");
+              let currentUserIndex = users.findIndex(
+                (user) => user.name === currentUserName
+              );
+              if (currentUserIndex !== -1) {
+                if (element.innerHTML === currentQuestion.answer) {
+                  users[currentUserIndex].totalScore = score + 1;
                 }
+                users[currentUserIndex].currentQuestionIndex = index + 1;
+
+                localStorage.setItem("userName", JSON.stringify(users));
+              }
 
               if (element.innerHTML === currentQuestion.answer) {
                 score++;
                 localStorage.setItem("score", score);
 
-               
                 mainContainer.classList.remove(BydefaultColor);
                 mainContainer.classList.remove(inCorrectAnswer);
                 mainContainer.classList.add(correctAnswer);
@@ -208,19 +208,18 @@
                 mainContainer.classList.remove(correctAnswer);
               }, 1000);
 
-            //   let indexFind = parseInt(localStorage.getItem("index"));
-            //   let nameUser = localStorage.getItem("name");
-            //   let currentUserQuestion = users.findIndex(
-            //     (item) => item.name === nameUser
-            //   );
+              //   let indexFind = parseInt(localStorage.getItem("index"));
+              //   let nameUser = localStorage.getItem("name");
+              //   let currentUserQuestion = users.findIndex(
+              //     (item) => item.name === nameUser
+              //   );
 
-            //   if (currentUserQuestion !== 0) {
-            //     users[currentUserQuestion].currentQuestionIndex = indexFind;
-            //     localStorage.setItem("userName", JSON.stringify(users));
-            //   }
-
-              localStorage.setItem("index", progressValue);
-              QuestionArray(progressValue);
+              //   if (currentUserQuestion !== 0) {
+              //     users[currentUserQuestion].currentQuestionIndex = indexFind;
+              //     localStorage.setItem("userName", JSON.stringify(users));
+              //   }
+              localStorage.setItem("index", index + 1);
+              QuestionArray(index + 1);
             });
           });
         }
