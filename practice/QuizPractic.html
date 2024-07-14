@@ -10,15 +10,16 @@
     <div id="container" class="bg-blue-100 w-full h-screen">
       <div
         id="input"
-        class="justify-center m-auto w-80 h-56 bg-zinc-100 flex-col text-center py-11"
+        class="justify-center m-auto w-80 h-72 space-y-9 bg-zinc-100 flex-col text-center py-11"
       >
-        <input type="text" id="userName" class="w-60 py-2" />
+        <input type="text" id="userName" class="w-60 py-2 " />
         <button
           id="submitbtn"
-          class="bg-green-700 mt-11 px-24 py-2 text-white rounded-md text-lg"
+          class="bg-green-700 mt-11 px-20 py-2 text-white rounded-md text-lg"
         >
           Submit
         </button>
+        <button id="scorebutton1" class="bg-blue-700 rounded-md text-white px-11 py-2 font-medium">Show ScoreBoard</button>
       </div>
       <div
         id="SecondContainer"
@@ -31,21 +32,26 @@
         <h1 class="text-center text-2xl"></h1>
         <p id="emoji" class="text-4xl text-center"></p>
         <button id="restart">Back to Start</button>
+        <button id="scorebutton">show ScoreBoard</button>
       </div>
-      <div id="score-board" class="border hidden w-80 h-56 bg-white text-center">
+      <div
+        id="score-board"
+        class="border hidden w-80 h-fit bg-white text-center m-auto"
+      >
         <h1 class="text-2xl font-bold text-center">ScoreBoard</h1>
-        <div>
-          gfhfhch
+        <div id="userScoreBoard" class="space-y-2">
+        
           <!-- scoredispaly here -->
         </div>
-        <button id="Back-to-start" class="bg-blue-700 text-white  text-xl font-medium px-7 py-3 rounded-md">Back To Start</button>
+        <button
+          id="Back-to-start"
+          class="bg-blue-700 text-white text-xl font-medium px-7 py-3 rounded-md"
+        >
+          Back To Start
+        </button>
       </div>
     </div>
     <script>
-      // constant
-      // const STORAGE_KEY = "startQuiz";
-      // const USERS_KEY = "quizUsers";
-
       const questions = [
         {
           question: "What is the capital of France? 🇫🇷",
@@ -89,15 +95,20 @@
       const inputid = document.getElementById("input");
       const inputName = document.getElementById("userName");
       const submitButton = document.getElementById("submitbtn");
-
       const mainContainer = document.getElementById("container");
       const SecondContainer = document.getElementById("SecondContainer");
       const scoreContainer = document.getElementById("scoreContainer");
       const head1 = document.querySelector("h1");
       const emoji = document.getElementById("emoji");
       const RestartButton = document.getElementById("restart");
-      const scoreBoard = document.getElementById("score-board")
-      const BackToStart = document.getElementById("Back-to-start")
+      const scoreBoard = document.getElementById("score-board");
+      const BackToStart = document.getElementById("Back-to-start");
+      const userscoreBoard = document.getElementById("userScoreBoard");
+      const scoreButton = document.getElementById("scorebutton");
+      const scorebutton1 = document.getElementById("scorebutton1")
+
+      scoreButton.addEventListener("click", userScoreBoard);
+      scorebutton1.addEventListener("click", userScoreBoard)
 
       // backGround color
       const byDefaultColor = "bg-blue-100";
@@ -106,28 +117,47 @@
       submitButton.addEventListener("click", submitForm);
       RestartButton.addEventListener("click", StartAgain);
 
+      function userScoreBoard() {
+        scoreContainer.classList.add("hidden");
+        scoreBoard.classList.remove("hidden");
+        inputid.classList.add("hidden")
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        // users.sort((a, b) => b.score - a.score);
+        let usersListHTML = users.map(
+          (user, index) => `
+                <div class="flex justify-between items-center bg-gray-100 p-2 rounded">
+                    <span>${index + 1}. ${user.currentUser}</span>
+                    <span class="font-bold">${user.userScore}/5</span>
+                </div>
+            `
+        );
+        console.log(usersListHTML);
+        let userListHTMLjoin = usersListHTML.join("")
+        console.log(userListHTMLjoin);
+
+        userscoreBoard.innerHTML = userListHTMLjoin
+
+      }
+
       function submitForm() {
         let username = inputName.value.trim();
-
         let quizUser = {
           currentUser: username,
           currentUserId: generateUniqueId(),
           currentQuestionindex: Questionindex,
           userScore: score,
         };
-
         quizUsers.push(quizUser);
         console.log("bbb", quizUsers);
         SecondContainer.classList.remove("hidden");
         inputid.classList.add("hidden");
         localStorage.setItem("name", username);
         localStorage1();
+        DisplayQuestion(0);
       }
 
       function localStorage1() {
-
         localStorage.setItem("users", JSON.stringify(quizUsers));
-
       }
 
       function generateUniqueId() {
@@ -170,7 +200,6 @@
           scoreDispaly();
           return;
         }
-
         const currentQuestion = questions[index];
         console.log("hi", currentQuestion);
         const heading = document.createElement("h1");
@@ -197,12 +226,10 @@
 
       function selectAnswere(element, currentQuestion, index) {
         const currentUsername = localStorage.getItem("name");
-
         const user = quizUsers.find(
           (items) => items.currentUser === currentUsername
         );
         console.log("one", user, quizUsers);
-
         if (element.innerHTML === currentQuestion.answer) {
           score++;
           localStorage.setItem("score", score);
@@ -211,10 +238,9 @@
           inCorrectAnswers();
         }
         if (user) {
-          //  quizUsers.userScore = score + 1
           user.userScore = score;
-          // quizUsers[userIndex].currentQuestionindex = index
-          localStorage.setItem("users", JSON.stringify(quizUsers));
+          user.currentQuestionindex = index + 1;
+          localStorage1();
         }
         DisplayQuestion(index + 1);
       }
@@ -225,7 +251,25 @@
         emoji.innerText = score >= 3 ? "🥳" : "😒";
       }
 
-      DisplayQuestion(0);
+      function backToStart() {
+        scoreContainer.classList.add("hidden");
+        scoreBoard.classList.add("hidden");
+        // SecondContainer.classList.add("hidden");
+        inputid.classList.remove("hidden");
+        inputName.value = "";
+        reSetQuiz()
+
+      }
+      BackToStart.addEventListener("click", backToStart);
+
+      function reSetQuiz (){
+        localStorage.setItem("score", 0)
+        localStorage.setItem("name", "")
+        score =0
+        currentUser =""
+      }
+
+      // DisplayQuestion(0);
     </script>
   </body>
 </html>
