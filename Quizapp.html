@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="container" class="bg-blue-100 w-full h-screen">
+      <div
+        id="input"
+        class="justify-center m-auto w-80 h-72 space-y-9 bg-zinc-100 flex-col text-center py-11"
+      >
+        <input type="text" id="userName" class="w-60 py-2 " />
+        <button
+          id="submitbtn"
+          class="bg-green-700 mt-11 px-20 py-2 text-white rounded-md text-lg"
+        >
+          Submit
+        </button>
+        <button id="scorebutton1" class="bg-blue-700 rounded-md text-white px-11 py-2 font-medium">Show ScoreBoard</button>
+      </div>
+      <div
+        id="SecondContainer"
+        class="justify-center m-auto w-80 h-56 bg-zinc-100 flex-col text-center hidden"
+      ></div>
+      <div
+        id="scoreContainer"
+        class="hidden w-80 h-56 justify-center m-auto bg-zinc-100"
+      >
+        <h1 class="text-center text-2xl"></h1>
+        <p id="emoji" class="text-4xl text-center"></p>
+        <button id="restart">Back to Start</button>
+        <button id="scorebutton">show ScoreBoard</button>
+      </div>
+      <div
+        id="score-board"
+        class="border hidden w-80 h-fit bg-white text-center m-auto"
+      >
+        <h1 class="text-2xl font-bold text-center">ScoreBoard</h1>
+        <div id="userScoreBoard" class="space-y-2">
+        
+          <!-- scoredispaly here -->
+        </div>
+        <button
+          id="Back-to-start"
+          class="bg-blue-700 text-white text-xl font-medium px-7 py-3 rounded-md"
+        >
+          Back To Start
+        </button>
+      </div>
+    </div>
+</body>
+</html>
