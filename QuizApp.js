@@ -60,4 +60,7 @@ const questions = [
  // backGround color
  const byDefaultColor = "bg-blue-100";
  const correctAnswerColor = "bg-green-700";
-//  const incorrectAnswerColor = "bg-red-500";
+ const incorrectAnswerColor = "bg-red-500";
+ function displayQuestions(){
+  
+ }
