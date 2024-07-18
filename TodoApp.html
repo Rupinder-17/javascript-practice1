@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div  class="m-auto w-80">
+        <div  class=" bg-red-300 w-80 mt-8 px-6 py-6 m-auto">
+            <input type="text" id="inputid">
+            <button id="Addbtn">Add</button>
+        </div>
+        <div id="listContainer">
+            <!-- <h4 id="head"></h4> -->
+        </div>
+    </div>
+    <script>
+        let arr1 =[]
+
+        const inputId = document.getElementById("inputid")
+        const addButton = document.getElementById("Addbtn")
+        const listData = document.getElementById("listContainer")
+        addButton.addEventListener("click", addData)
+
+        function addData (){
+
+            let list1 = document.createElement("li")
+            listData.appendChild(list1)
+            let delButton = document.createElement("button")
+            list1.appendChild(delButton)
+            list1.innerHTML = inputId.value
+            let userTasks = {
+                nameofTask : list1.innerHTML,
+            }
+            console.log(userTasks);
+            arr1.push(userTasks)
+            console.log(arr1)
+            inputId.value = ""
+
+              
+        }
+    
+    </script>
+    
+</body>
+</html>
