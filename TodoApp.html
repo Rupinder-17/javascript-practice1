@@ -12,9 +12,13 @@
             <input type="text" id="inputid">
             <button id="Addbtn">Add</button>
         </div>
-        <div id="listContainer">
+        <ul id="listContainer" class=" w-full bg-gray-300 w-full mt-1 p-4 rounded  ">
+            <!-- <li>hhjj</li>
+             <li>hhjj</li> -->
+            <!-- <button>hhh</button> --> 
+            
             <!-- <h4 id="head"></h4> -->
-        </div>
+        </ul>
     </div>
     <script>
         let arr1 =[]
@@ -26,20 +30,38 @@
 
         function addData (){
 
-            let list1 = document.createElement("li")
-            listData.appendChild(list1)
-            let delButton = document.createElement("button")
-            list1.appendChild(delButton)
-            list1.innerHTML = inputId.value
-            let userTasks = {
-                nameofTask : list1.innerHTML,
-            }
-            console.log(userTasks);
-            arr1.push(userTasks)
-            console.log(arr1)
-            inputId.value = ""
+           if(inputId.value == ""){
+            alert("enter your task")
+           }
+           let taskName = inputId.value.trim()
+           let taskObj = {
+            userTask : taskName,
+            // taskStatus : unChecked
+           }
+           arr1.push(taskObj)
+           StorageData()
+        //    localStorage.setItem("todolist",JSON.stringify(arr1))
 
-              
+            const listItem = document.createElement("li")
+            listItem.classList.add("flex", "justify-between", "items-center", "bg-gray-400", "p-2", "my-2", "rounded")
+            const pTag = document.createElement("p")
+            pTag.innerText = taskName
+            listItem.appendChild(pTag)
+
+            const delButton = document.createElement("button")
+            delButton.innerText ="del"
+            delButton.addEventListener("click", function(){
+                listData.removeChild(listItem)
+                
+            })
+            
+            listItem.appendChild(delButton)
+            listData.appendChild(listItem)
+            inputId.value = ""
+            StorageData()
+        }
+        function StorageData(){
+            localStorage.setItem("todoList", JSON.stringify(arr1))
         }
     
     </script>
