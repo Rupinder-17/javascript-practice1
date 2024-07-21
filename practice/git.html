@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div>
+        <div class="bg-red-300 w-80 mt-8 px-6 py-6">
+            <input type="text" id="inputid">
+            <button id="Addbtn">Add</button>
+        </div>
+        <div>
+            <h1 id="head"></h1>
+        </div>
+    </div>
+    <script>
+        let arr1 = [];
+
+        const inputId = document.getElementById("inputid");
+        const addButton = document.getElementById("Addbtn");
+        const heading = document.getElementById("head");
+
+        addButton.addEventListener("click", addData);
+
+        function addData() {
+            let taskName = inputId.value;
+            let userTasks = {
+                nameofTask: taskName,
+            };
+
+            arr1.push(userTasks);
+
+            inputId.value = ""; // Clear the input field after adding the task
+
+            heading.innerHTML = ""; // Clear the heading before appending new tasks
+            arr1.forEach(item => {
+                heading.innerHTML += `<div><li>${item.nameofTask}</li></div>`;
+            });
+        }
+    </script>
+</body>
+</html>

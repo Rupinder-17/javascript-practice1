@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <div id="container" class="bg-blue-100 w-full h-screen">
+    <div id="container" class="bg-blue-100 w-full h-screen flex w-100 h-100 ">
       <div
         id="input"
         class="justify-center m-auto w-80 h-72 space-y-9 bg-zinc-100 flex-col text-center py-11"
@@ -23,16 +23,19 @@
       </div>
       <div
         id="SecondContainer"
-        class="justify-center m-auto w-80 h-56 bg-zinc-100 flex-col text-center hidden"
+        class="justify-center m-auto w-96 h-56 bg-zinc-100 flex-col text-center hidden"
       ></div>
       <div
         id="scoreContainer"
-        class="hidden w-80 h-56 justify-center m-auto bg-zinc-100"
+        class="hidden w-80 h-60 justify-center  items-center m-auto bg-zinc-100 py-4"
       >
         <h1 class="text-center text-2xl"></h1>
         <p id="emoji" class="text-4xl text-center"></p>
-        <button id="restart">Back to Start</button>
-        <button id="scorebutton">show ScoreBoard</button>
+        <div class="flex flex-col justify-center gap-6  items-center py-4">
+
+          <button id="restart"  class="bg-blue-700 rounded-md text-white px-9 py-2 font-medium">Back to Start</button>
+          <button id="scorebutton"  class="bg-blue-700 rounded-md text-white px-6 py-2 font-medium">show ScoreBoard</button>
+        </div>
       </div>
       <div
         id="score-board"
@@ -188,7 +191,7 @@
         score = 0;
         Questionindex = 0;
         DisplayQuestion(Questionindex);
-        localStorage.setItem("score", score);
+        localStorage.setItem("score", 0);
       }
 
       const DisplayQuestion = (index) => {
@@ -204,14 +207,15 @@
         console.log("hi", currentQuestion);
         const heading = document.createElement("h1");
         console.log(heading);
-        heading.classList.add("bg-blue-400", "text-gray-200", "text-2xl");
+        heading.classList.add("bg-blue-400", "text-gray-200", "py-3", "text-2xl");
         heading.innerText = currentQuestion.question;
         SecondContainer.appendChild(heading);
         const divcontainor = document.createElement("div");
 
         currentQuestion.options.forEach((item) => {
           const button = document.createElement("button");
-          button.classList.add("btn");
+          button.classList.add("btn", "bg-gray-100" , "w-full" ,"space-y-3", "py-3", "px-3", "font-medium", "hover:bg-gray-300", );
+          button.classList.add("space-y-3" , "bg-gray-100");
           button.style.display = "flex";
           button.innerText = item;
           divcontainor.appendChild(button);
@@ -254,6 +258,9 @@
       function backToStart() {
         scoreContainer.classList.add("hidden");
         scoreBoard.classList.add("hidden");
+        mainContainer.classList.replace(incorrectAnswerColor, byDefaultColor)
+        mainContainer.classList.replace(correctAnswerColor, byDefaultColor)
+
         // SecondContainer.classList.add("hidden");
         inputid.classList.remove("hidden");
         inputName.value = "";
