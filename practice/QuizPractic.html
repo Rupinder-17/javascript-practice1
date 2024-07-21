@@ -183,6 +183,21 @@
         );
       }
 
+      function stopRefresh(){
+        const savedUsername = localStorage.getItem("name")
+        if(savedUsername){
+          let singleUser = quizUsers.find((elem)=> elem.currentUser ==savedUsername)
+          if(singleUser){
+          Questionindex = singleUser.currentQuestionindex;
+          score = singleUser.userScore
+          inputid.classList.add("hidden")
+          SecondContainer.classList.remove("hidden")
+          DisplayQuestion(Questionindex)
+          }
+        }
+      }
+      // stopRefresh()
+
       function StartAgain() {
         scoreContainer.classList.add("hidden");
         SecondContainer.classList.remove("hidden");
@@ -261,7 +276,6 @@
         mainContainer.classList.replace(incorrectAnswerColor, byDefaultColor)
         mainContainer.classList.replace(correctAnswerColor, byDefaultColor)
 
-        // SecondContainer.classList.add("hidden");
         inputid.classList.remove("hidden");
         inputName.value = "";
         reSetQuiz()
@@ -276,7 +290,8 @@
         currentUser =""
       }
 
-      // DisplayQuestion(0);
+      //  DisplayQuestion();
+      stopRefresh()
     </script>
   </body>
 </html>
