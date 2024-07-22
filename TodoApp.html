@@ -1,66 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <div  class="m-auto w-80">
-        <div  class=" bg-red-300 w-80 mt-8 px-6 py-6 m-auto">
-            <input type="text" id="inputid">
-            <button id="Addbtn">Add</button>
-        </div>
-        <ul id="listContainer" class=" w-full bg-gray-300 w-full mt-1 p-4 rounded  ">
-           
-        </ul>
+  </head>
+  <body>
+    <div class="m-auto w-80">
+      <div class="bg-red-300 w-80 mt-8 px-6 py-6 m-auto">
+        <input type="text" id="inputid" />
+        <button id="Addbtn">Add</button>
+      </div>
+      <ul
+        id="listContainer"
+        class="w-full bg-gray-300 w-full mt-1 p-4 rounded"
+      ></ul>
     </div>
     <script>
-        let arr1 =[]
+      let arr1 = JSON.parse(localStorage.getItem("todolist")) || [];
 
-        const inputId = document.getElementById("inputid")
-        const addButton = document.getElementById("Addbtn")
-        const listData = document.getElementById("listContainer")
-        addButton.addEventListener("click", addData)
+      const inputId = document.getElementById("inputid");
+      const addButton = document.getElementById("Addbtn");
+      const listData = document.getElementById("listContainer");
+      addButton.addEventListener("click", addData);
 
-        function addData (){
+      function addData() {
+        if (inputId.value == "") {
+          alert("enter your task");
+        }
+        let taskName = inputId.value.trim();
+        let taskObj = {
+          id: uniqueId(),
+          userTask: taskName,
+          taskStatus: false,
+        };
+        arr1.push(taskObj);
+        inputId.value = ""
+        StorageData();
+        displayList()
+      }
+      function displayList(){
+        listData.innerHTML = ""
 
-           if(inputId.value == ""){
-            alert("enter your task")
-           }
-           let taskName = inputId.value.trim()
-           let taskObj = {
-            userTask : taskName,
-            // taskStatus : unChecked
-           }
-           arr1.push(taskObj)
-           StorageData()
-        //    localStorage.setItem("todolist",JSON.stringify(arr1))
-
-            const listItem = document.createElement("li")
-            listItem.classList.add("flex", "justify-between", "items-center", "bg-gray-400", "p-2", "my-2", "rounded")
-            const pTag = document.createElement("p")
-            pTag.innerText = taskName
-            listItem.appendChild(pTag)
-
-            const delButton = document.createElement("button")
-            delButton.innerText ="del"
-            delButton.addEventListener("click", function(){
-                listData.removeChild(listItem)
-                
-            })
+        arr1.map((item)=>{
+          const listItem = `
+          <li>
+            <p>${item.userTask}</p>
+            <button onclick="delitem('${item.id}')">del</button>
             
-            listItem.appendChild(delButton)
-            listData.appendChild(listItem)
-            inputId.value = ""
-            StorageData()
-        }
-        function StorageData(){
-            localStorage.setItem("todoList", JSON.stringify(arr1))
-        }
-    
+            </li>
+          `
+          listData.innerHTML += listItem
+        })
+      }
+
+       function delitem(id){
+         arr1 = arr1.filter((item)=> item.id !==id)
+        displayList()
+        StorageData()
+       }
+
+      //   const listItem = document.createElement("li");
+      //   listItem.classList.add(
+      //     "flex",
+      //     "justify-between",
+      //     "items-center",
+      //     "bg-gray-400",
+      //     "p-2",
+      //     "my-2",
+      //     "rounded"
+      //   );
+      //   const pTag = document.createElement("p");
+      //   pTag.innerText = taskName;
+      //   listItem.appendChild(pTag);
+
+      //   const delButton = document.createElement("button");
+      //   delButton.innerText = "del";
+
+      //   delButton.addEventListener("click", function () {
+      //     let delItem = arr1.filter((item) => item.id !== taskObj.id);
+
+      //     console.log(delItem);
+      //   });
+
+      //   listItem.appendChild(delButton);
+      //   listData.appendChild(listItem);
+      //   inputId.value = "";
+      //   StorageData();
+      // }
+      function uniqueId() {
+        return window.crypto.randomUUID();
+      }
+      function StorageData() {
+        localStorage.setItem("todoList", JSON.stringify(arr1));
+      }
     </script>
-    
-</body>
+  </body>
 </html>
