@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background: rgb(239, 237, 237);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="w-96 shadow-xl shadow-inner bg-white m-auto px-3 rounded-xl pb-8"
+    >
+      <div class="w-80 h-fit m-auto mt-4">
+        <div class="py-4">
+          <h1 class="text-2xl font-semibold">My to-do List</h1>
+        </div>
+        <div class="flex w-full">
+          <input
+            type="text"
+            id="inputText"
+            class="px-1 w-[86%] ring-1 ring-gray-200"
+            placeholder="Enter a new task"
+          />
+          <button
+            id="addText"
+            class="text-white bg-blue-500 py-2 w-24 font-semibold"
+          >
+            Add Task
+          </button>
+        </div>
+        <div>
+          <ul id="listItem"></ul>
+        </div>
+      </div>
+    </div>
+    <script>
+      const inputText = document.getElementById("inputText");
+      const addData1 = document.getElementById("addText");
+      const listItem = document.getElementById("listItem");
+      addData1.addEventListener("click", addData);
+
+      let objArr = JSON.parse(localStorage.getItem("todolist1")) || [];
+
+      function addData() {
+        if (inputText.value == "") {
+          alert("please enter a task");
+          return;
+        }
+
+        let userTask = inputText.value.trim();
+        let taskObj = {
+          id: uniqueId(),
+          taskName: userTask,
+          taskStatus: false,
+        };
+        objArr.push(taskObj);
+        displayList();
+        storeData();
+        inputText.value = "";
+      }
+
+      function displayList() {
+        listItem.innerHTML = "";
+        objArr.map((element) => {
+          const listItem1 = `
+            <li class="flex justify-between items-center bg-gray-100 w-full hover:bg-gray-200 p-2 my-2 rounded">
+              <input type="checkbox" ${element.taskStatus ? "checked" : ""} onclick="checkList('${element.id}')">
+              <p class="w-full px-3 ${element.taskStatus ? "line-through" : ""}" onclick="editTask('${element.id}')">${element.taskName}</p>
+              <button onclick="deleteList('${element.id}')">del</button>
+            </li>
+          `;
+          listItem.innerHTML += listItem1;
+        });
+      }
+
+      function checkList(id) {
+        objArr = objArr.map((elm) => elm.id === id ? { ...elm, taskStatus: !elm.taskStatus } : elm);
+        displayList();
+        storeData();
+      }
+
+      function deleteList(id) {
+        objArr = objArr.filter((items) => items.id !== id);
+        displayList();
+        storeData();
+      }
+
+      function editTask(id) {
+        const task = objArr.find((task) => task.id === id);
+        if (task) {
+          inputText.value = task.taskName;
+          addData1.removeEventListener("click", addData);
+          addData1.addEventListener("click", function updateTask() {
+            task.taskName = inputText.value.trim();
+            inputText.value = "";
+            displayList();
+            storeData();
+            addData1.removeEventListener("click", updateTask);
+            addData1.addEventListener("click", addData);
+          });
+        }
+      }
+
+      function uniqueId() {
+        return window.crypto.randomUUID();
+      }
+
+      function storeData() {
+        localStorage.setItem("todolist1", JSON.stringify(objArr));
+      }
+
+      displayList();
+    </script>
+  </body>
+</html>

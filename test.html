@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="w-80  m-auto  mt-5">
+        <div id="heading" class="bg-green-500 text-center w-40  text-white font-medium text-xl ">
+            <h1>Javascript</h1>
+        </div>
+        <div id="text" class="hidden text-gray-500">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum quae inventore minima sint autem assumenda mollitia amet nam culpa doloremque voluptates doloribus veniam velit cupiditate aut, dicta molestiae! Placeat, iure?</p>
+        </div>
+    </div>
+    <script>
+        const heading = document.getElementById("heading")
+        const paragraph = document.getElementById("text")
+        heading.addEventListener("click",showtext)
+
+        function showtext(){
+
+            paragraph.classList.contains("hidden") ? paragraph.classList.remove("hidden"): paragraph.classList.add("hidden")
+        }
+        
+    </script>
+    
+</body>
+</html>
