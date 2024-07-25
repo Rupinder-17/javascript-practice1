@@ -36,6 +36,12 @@
           >
             Add Task
           </button>
+          <button
+            id="updatebtn"
+            class="text-white bg-blue-500 py-2 w-24 font-semibold hidden"
+          >
+            Update
+          </button>
         </div>
         <div>
           <ul id="listItem"></ul>
@@ -46,7 +52,9 @@
       const inputText = document.getElementById("inputText");
       const addData1 = document.getElementById("addText");
       const listItem = document.getElementById("listItem");
+      const updatebtn = document.getElementById("updatebtn");
       addData1.addEventListener("click", addData);
+      updatebtn.addEventListener("click", updateTask);
 
       let objArr = JSON.parse(localStorage.getItem("todolist1")) || [];
 
@@ -81,18 +89,34 @@
                   element.taskStatus ? "checked" : ""
                 } class="" onclick="checkList('${element.id}')"></span>
               <p class=" w-full  px-3 ${
-                element.taskStatus ? "line-through" : ""
-              } " onclick="updateTask('${element.id}')">${element.taskName}</p>
+                element.taskStatus ? "line-through " : ""
+              } " >${element.taskName}</p>
               <button  class="deleteButton" data-id="${
                 element.id
               }"><i class="fa-solid fa-trash-arrow-up text-red-600 text-xl"></i></button>
               
+              <button class="editBtn ml-5 text-yellow-800 text-xl" data-id="${
+                element.id
+              }"><i class="fa-solid fa-pen"></i></button>
               </li>
               `;
           listItem.innerHTML += listItem1;
         });
         const delbtn = document.querySelectorAll(".deleteButton");
-        
+        const editBtn = document.querySelectorAll(".editBtn");
+
+        editBtn.forEach((ele) => {
+          ele.addEventListener("click", function () {
+            const editItem = ele.getAttribute("data-id");
+            let edititems = objArr.find((item) => item.id == editItem);
+            localStorage.setItem("currenteditItemId", editItem);
+            console.log(edititems);
+            inputText.value = edititems.taskName;
+            addData1.classList.add("hidden");
+            updatebtn.classList.remove("hidden");
+          });
+        });
+
         delbtn.forEach((element) => {
           element.addEventListener("click", function () {
             const delItem = element.getAttribute("data-id");
@@ -105,29 +129,18 @@
         });
       }
 
-      function updateTask(event) {
-        const task = objArr.find((item) => item.id === id);
-        console.log("update task");
+      function updateTask() {
 
-        if (task) {
-          inputText.value = task.taskName;
-          addData1.removeEventListener("click", addData);
-          addData1.addEventListener("click", updateTask1);
-          addData1.innerText = "Update";
-          addData1.task = task
-          displayList();
-          StorageData();
-        }
-      }
-      function updateTask1() {
-      
-        task.taskName = inputText.value.trim();
-        inputText.value = "";
-        addData1.removeEventListener("click", updateTask1);
-        addData1.addEventListener("click", addData);
-        addData1.innerText = "Add Task";
+        let updateId = localStorage.getItem("currenteditItemId");
+        objArr = objArr.map((items) =>
+          items.id == updateId ? { ...items, taskName: inputText.value } : items
+        );
+        console.log("bbbb", objArr);
         displayList();
         StorageData();
+        addData1.classList.remove("hidden");
+        updatebtn.classList.add("hidden");
+        inputText.value = "";
       }
 
       function checkList(id) {
@@ -138,22 +151,16 @@
         displayList();
         StorageData();
       }
-      // function deletelist(id) {
-
-      //   if(confirm("are you sure want to delete ?")){
-      //     objArr = objArr.filter((items) => items.id !== id);
-      //     displayList();
-      //   StorageData();
-
-      //   }
-      // }
+    
 
       function uniqueId() {
         return window.crypto.randomUUID();
       }
+
       function StorageData() {
         localStorage.setItem("todolist1", JSON.stringify(objArr));
       }
+      
       displayList();
     </script>
   </body>

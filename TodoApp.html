@@ -40,20 +40,20 @@
         StorageData();
         displayList()
       }
-      function displayList(){
-        listData.innerHTML = ""
+      // function displayList(){
+      //   listData.innerHTML = ""
 
-        arr1.map((item)=>{
-          const listItem = `
-          <li>
-            <p>${item.userTask}</p>
-            <button onclick="delitem('${item.id}')">del</button>
+      //   arr1.map((item)=>{
+      //     const listItem = `
+      //     <li>
+      //       <p>${item.userTask}</p>
+      //       <button onclick="delitem('${item.id}')">del</button>
             
-            </li>
-          `
-          listData.innerHTML += listItem
-        })
-      }
+      //       </li>
+      //     `
+      //     listData.innerHTML += listItem
+      //   })
+      // }
 
        function delitem(id){
          arr1 = arr1.filter((item)=> item.id !==id)
@@ -61,34 +61,34 @@
         StorageData()
        }
 
-      //   const listItem = document.createElement("li");
-      //   listItem.classList.add(
-      //     "flex",
-      //     "justify-between",
-      //     "items-center",
-      //     "bg-gray-400",
-      //     "p-2",
-      //     "my-2",
-      //     "rounded"
-      //   );
-      //   const pTag = document.createElement("p");
-      //   pTag.innerText = taskName;
-      //   listItem.appendChild(pTag);
+        const listItem = document.createElement("li");
+        listItem.classList.add(
+          "flex",
+          "justify-between",
+          "items-center",
+          "bg-gray-400",
+          "p-2",
+          "my-2",
+          "rounded"
+        );
+        const pTag = document.createElement("p");
+        pTag.innerText = taskName;
+        listItem.appendChild(pTag);
 
-      //   const delButton = document.createElement("button");
-      //   delButton.innerText = "del";
+        const delButton = document.createElement("button");
+        delButton.innerText = "del";
 
-      //   delButton.addEventListener("click", function () {
-      //     let delItem = arr1.filter((item) => item.id !== taskObj.id);
+        delButton.addEventListener("click", function () {
+          let delItem = arr1.filter((item) => item.id !== taskObj.id);
 
-      //     console.log(delItem);
-      //   });
+          console.log(delItem);
+        });
 
-      //   listItem.appendChild(delButton);
-      //   listData.appendChild(listItem);
-      //   inputId.value = "";
-      //   StorageData();
-      // }
+        listItem.appendChild(delButton);
+        listData.appendChild(listItem);
+        inputId.value = "";
+        StorageData();
+      
       function uniqueId() {
         return window.crypto.randomUUID();
       }

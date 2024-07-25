@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css"
+    />
     <style>
       body {
         background: rgb(239, 237, 237);
@@ -32,6 +36,9 @@
           >
             Add Task
           </button>
+          <button id="updatebtn" class="text-white bg-blue-500 py-2 w-24 font-semibold hidden">
+            Update
+          </button>
         </div>
         <div>
           <ul id="listItem"></ul>
@@ -41,14 +48,17 @@
     <script>
       const inputText = document.getElementById("inputText");
       const addData1 = document.getElementById("addText");
+      const updatebtn = document.getElementById("updatebtn");
       const listItem = document.getElementById("listItem");
       addData1.addEventListener("click", addData);
+      updatebtn.addEventListener("click", updateTask);
 
       let objArr = JSON.parse(localStorage.getItem("todolist1")) || [];
+      let currentEditItemId = null;
 
       function addData() {
         if (inputText.value == "") {
-          alert("please enter a task");
+          alert("Please enter a task");
           return;
         }
 
@@ -66,44 +76,64 @@
 
       function displayList() {
         listItem.innerHTML = "";
-        objArr.map((element) => {
+        objArr.forEach((element) => {
           const listItem1 = `
             <li class="flex justify-between items-center bg-gray-100 w-full hover:bg-gray-200 p-2 my-2 rounded">
-              <input type="checkbox" ${element.taskStatus ? "checked" : ""} onclick="checkList('${element.id}')">
-              <p class="w-full px-3 ${element.taskStatus ? "line-through" : ""}" onclick="editTask('${element.id}')">${element.taskName}</p>
-              <button onclick="deleteList('${element.id}')">del</button>
-            </li>
-          `;
+                <span><input type="checkbox" ${element.taskStatus ? "checked" : ""} class="" onclick="checkList('${element.id}')"></span>
+                <p class="w-full px-3 ${element.taskStatus ? "line-through" : ""}">${element.taskName}</p>
+                <button class="deleteButton" data-id="${element.id}"><i class="fa-solid fa-trash-arrow-up text-red-600 text-xl"></i></button>
+                <button class="editBtn" data-id="${element.id}">Edit</button>
+            </li>`;
           listItem.innerHTML += listItem1;
+        });
+
+        document.querySelectorAll(".deleteButton").forEach((element) => {
+          element.addEventListener("click", function () {
+            const delItem = element.getAttribute("data-id");
+            if (confirm("Are you sure you want to delete?")) {
+              objArr = objArr.filter((item) => item.id !== delItem);
+              displayList();
+              storeData();
+            }
+          });
+        });
+
+        document.querySelectorAll(".editBtn").forEach((element) => {
+          element.addEventListener("click", function () {
+            const editItem = element.getAttribute("data-id");
+            const editTask = objArr.find((item) => item.id === editItem);
+            currentEditItemId = editItem;
+            inputText.value = editTask.taskName;
+            addData1.classList.add("hidden");
+            updatebtn.classList.remove("hidden");
+          });
         });
       }
 
-      function checkList(id) {
-        objArr = objArr.map((elm) => elm.id === id ? { ...elm, taskStatus: !elm.taskStatus } : elm);
-        displayList();
-        storeData();
-      }
-
-      function deleteList(id) {
-        objArr = objArr.filter((items) => items.id !== id);
-        displayList();
-        storeData();
-      }
-
-      function editTask(id) {
-        const task = objArr.find((task) => task.id === id);
-        if (task) {
-          inputText.value = task.taskName;
-          addData1.removeEventListener("click", addData);
-          addData1.addEventListener("click", function updateTask() {
-            task.taskName = inputText.value.trim();
-            inputText.value = "";
-            displayList();
-            storeData();
-            addData1.removeEventListener("click", updateTask);
-            addData1.addEventListener("click", addData);
-          });
+      function updateTask() {
+        if (inputText.value == "") {
+          alert("Please enter a task");
+          return;
         }
+
+        objArr = objArr.map((item) =>
+          item.id === currentEditItemId ? { ...item, taskName: inputText.value } : item
+        );
+
+        displayList();
+        storeData();
+        inputText.value = "";
+        addData1.classList.remove("hidden");
+        updatebtn.classList.add("hidden");
+      }
+
+      function checkList(id) {
+        objArr = objArr.map((item) =>
+          item.id === id ? { ...item, taskStatus: !item.taskStatus } : item
+        );
+
+        displayList();
+        storeData();
       }
 
       function uniqueId() {
