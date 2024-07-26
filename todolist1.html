@@ -91,16 +91,19 @@
               <p class=" w-full  px-3 ${
                 element.taskStatus ? "line-through " : ""
               } " >${element.taskName}</p>
-              <button  class="deleteButton" data-id="${
-                element.id
-              }"><i class="fa-solid fa-trash-arrow-up text-red-600 text-xl"></i></button>
-              
+             
               <button class="editBtn ml-5 text-yellow-800 text-xl" data-id="${
                 element.id
               }"><i class="fa-solid fa-pen"></i></button>
+               <button  class="deleteButton" data-id="${
+                element.id
+              }"><i class="fa-solid fa-trash-arrow-up text-red-600 text-xl"></i></button>
+              
               </li>
               `;
+
           listItem.innerHTML += listItem1;
+
         });
         const delbtn = document.querySelectorAll(".deleteButton");
         const editBtn = document.querySelectorAll(".editBtn");
