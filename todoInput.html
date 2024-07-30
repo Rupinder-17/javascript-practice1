@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="w-96 m-auto my-8 bg-gray-200 shadow h-96 px-4">
+        <div class="py-3 text-center">
+            <input class="bg-gray-100 w-72 py-1" id="textInput" type="text">
+            <button id="AddBtn"  class="bg-blue-500 px-3 text-white py-1">Add</button>
+            <button id="UpdateBtn"  class="hidden bg-blue-500 px-3 text-white py-1">update</button>
+        </div>
+        <div>
+            <ul id="userList" class=" space-y-3 ">
+                
+
+            </ul>
+        </div>
+    </div>
+    <script>
+        let arrayData= JSON.parse(localStorage.getItem("todo"))|| []
+        const inputText = document.getElementById("textInput")
+        const addBtn = document.getElementById("AddBtn")
+        const updateBtn = document.getElementById("UpdateBtn")
+        const ulList = document.getElementById("userList")
+
+        addBtn.addEventListener("click", addTask)
+        // updateBtn.addEventListener("click", updateTask)
+
+        function addTask(){
+
+            let inputData = inputText.value.trim();
+            let obj = {
+                id : window.crypto.randomUUID(),
+                taskName : inputData,
+                completed : false,
+            }
+
+            arrayData.push(obj)
+            displayList()
+            storeList()
+            inputText.value = ""
+
+        }
+
+        function displayList(){
+            ulList.innerHTML = ""
+            arrayData.map((item)=>{
+              let listData =  `<li class="flex  bg-white px-1 py-2 " id="li">
+                     
+                    <p id="parentTag" class="w-full">${item.taskName}</p>
+                    <input type="text" class="hidden w-full ring-1" >
+                    <button class= "delItem bg-red-500 px-2 rounded-xl text-white" data-item="${item.id}">Del</button>
+                    <button  class= " save-data hidden bg-green-500 px-1 text-white rounded-xl" data-item="${item.id}">Save</button>
+                    <button class= "editItem bg-yellow-500  px-1 rounded-xl  text-red-700 font-bold ml-3" data-item="${item.id}">Edit</button>
+                    </li>`
+                    ulList.innerHTML += listData
+            })
+            const delItem = document.querySelectorAll(".delItem")
+
+            delItem.forEach((elm)=>{
+                elm.addEventListener("click", function(){
+                    const dellitem = elm.getAttribute("data-item")
+                    arrayData = arrayData.filter((element)=> element.id !== dellitem)
+                    displayList()
+                    storeList()
+                })
+            }) 
+            
+            const editItem = document.querySelectorAll(".editItem")
+            editItem.forEach((edItem)=> {
+                edItem.addEventListener("click", function(){
+                    // console.log("hello", edItem.parentNode.children[0].classList.add("hidden"));
+                    // console.log("hello", edItem.parentNode.children[1].classList.toggle("hidden"));
+
+                    const eddItem = edItem.getAttribute("data-item")
+
+                    let li = edItem.parentElement
+                    let ptag = li.children[0]
+                    let inputitem = li.children[1];
+                    let delBtn1 = li.classList[2]
+                    let saveBtn = li.children[3]
+                    let editBtn = li.children[4]
+
+                    ptag.classList.toggle("hidden");
+                    inputitem.classList.toggle("hidden");
+                    // delBtn1.classList.toggle("hidden")
+                    saveBtn.classList.toggle("hidden")
+                    editBtn.classList.toggle("hidden")
+                    localStorage.setItem("editId", eddItem)
+
+                })
+            })
+
+            const saveData = document.querySelectorAll(".save-data")
+            saveData.forEach((upItem)=> {
+                upItem.addEventListener("click", function(){
+                    const upItemId = upItem.getAttribute("data-item");
+                    let li = upItem.parentElement;
+                    console.log("p",upItem);
+                    let inputitem = li.children[1]
+
+                    arrayData = arrayData.map((items)=> 
+                    items.id === upItemId ? {...items, taskName: inputitem.value} : items
+                );
+                displayList()
+                storeList()
+
+                })
+
+            })
+        }
+        // function updateTask (){
+        //     let getID = localStorage.getItem("editId")
+        //     arrayData = arrayData.map((items)=>
+        //     items.id == getID ? {...items , taskName: inputText.value} : items
+        // )
+        // displayList()
+        // storeList()
+        // updateBtn.classList.add("hidden")
+        // addBtn.classList.remove("hidden")
+        // inputText.value = ""
+
+        // }
+
+        function storeList(){
+            localStorage.setItem("todo", JSON.stringify(arrayData))
+
+        }
+        displayList()
+    </script>
+</body>
+</html>
