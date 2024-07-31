@@ -16,7 +16,6 @@
         <div>
             <ul id="userList" class=" space-y-3 ">
                 
-
             </ul>
         </div>
     </div>
@@ -81,13 +80,15 @@
                     let li = edItem.parentElement
                     let ptag = li.children[0]
                     let inputitem = li.children[1];
-                    let delBtn1 = li.classList[2]
+                    inputitem.value  = ptag.innerText
+                    let delBtn1 = li.children[2]
+                    console.log(delBtn1);
                     let saveBtn = li.children[3]
                     let editBtn = li.children[4]
 
                     ptag.classList.toggle("hidden");
                     inputitem.classList.toggle("hidden");
-                    // delBtn1.classList.toggle("hidden")
+                    delBtn1.classList.toggle("hidden")
                     saveBtn.classList.toggle("hidden")
                     editBtn.classList.toggle("hidden")
                     localStorage.setItem("editId", eddItem)
