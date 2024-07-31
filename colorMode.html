@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div >
+
+        <div class="w-96 m-auto border px-11 py-4" id="main">
+            <p id="ptag" class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, inventore? Ipsum iste officia vero expedita similique velit debitis cum libero voluptatibus, laudantium, sequi qui repudiandae tempora quibusdam doloribus repellat. Sit!</p>
+            <button id="btn" class="bg-blue-500 px-3 py-2 mt-5 ">lightmode</button>
+        </div>
+
+    </div>
+    <script>
+        const pTag = document.getElementById("ptag")
+        const lightBtn = document.getElementById("btn")
+        const mainDiv = document.getElementById("main")
+
+
+        lightBtn.addEventListener("click", function(){
+            mainDiv.classList.toggle("bg-blue-400")
+            mainDiv.classList.toggle( "text-gray-300")
+            lightBtn.classList.toggle( "text-white")
+            lightBtn.classList.toggle("bg-gray-700",  "font-xl")
+            lightBtn.classList.toggle(  "font-xl")
+
+            if(lightBtn.textContent === "Light Mode"){
+                lightBtn.textContent = "Dark Mode"
+            }else{
+                lightBtn.textContent = "Light Mode"
+            }
+
+
+
+
+            
+        })
+    </script>
+    
+</body>
+</html>
