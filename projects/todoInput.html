@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="w-72 h-56 m-auto bg-slate-400 px-5 py-7">
+      <div>
+        <input type="text" id="taskInput" />
+        <button id="addButton" class="bg-slate-50">Add</button>
+        <p class="hidden text-red-700 mt-1" id="ptag">
+          <!-- enter more then 3 digit -->
+        </p>
+      </div>
+      <div>
+        <ul id="userList"></ul>
+      </div>
+    </div>
+    <script>
+      const inputData = document.getElementById("taskInput");
+      const addButton = document.getElementById("addButton");
+      const userList = document.getElementById("userList");
+      const ptag = document.getElementById("ptag");
+      let taskArr = JSON.parse(localStorage.getItem("inputItems")) || [];
+      inputData.addEventListener("input", validInput);
+      addButton.addEventListener("click", addTask);
+
+      function validInput() {
+        let inputValue = inputData.value.trim();
+        if (inputValue.length < 3) {
+          ptag.innerText = "minimum length of string is 3"
+          ptag.classList.remove("hidden");
+        } else if(inputValue.length > 10) {
+          ptag.innerText = "maximum length of string is 10"
+
+          ptag.classList.remove("hidden");
+
+        }
+        else{
+          ptag.classList.add("hidden");
+
+        }
+      }
+
+      function addTask() {
+        let inputValue = inputData.value.trim();
+        if (inputValue.length < 3) {
+          return;
+        }
+
+        const taskobj = {
+          id: window.crypto.randomUUID(),
+          taskName: inputValue,
+          taskStatus: false,
+        };
+        taskArr.push(taskobj);
+        displayTask();
+        storeData();
+        inputData.value = "";
+        ptag.classList.add("hidden");
+      }
+      function storeData() {
+        localStorage.setItem("inputItems", JSON.stringify(taskArr));
+      }
+
+      function displayTask() {
+        (userList.innerHTML = ""),
+          taskArr.map((items) => {
+            let listItem = ` <li class='flex'>
+                    <p class=" w-full">${items.taskName}</p>
+                    <button class= "delButton" data-id="${items.id}" > Del</button>
+                    <button class= "EditButton" data-id="${items.id}" > Edit</button>
+                    <button class= "saveButton hidden" data-id="${items.id}" > save</button>
+
+
+                    </li>`;
+            userList.innerHTML += listItem;
+          });
+        const delButton = document.querySelectorAll(".delButton");
+        const EditButton = document.querySelectorAll(".EditButton");
+
+        delButton.forEach((element) => {
+          const delId = element.getAttribute("data-id");
+          console.log(delId);
+          element.addEventListener("click", function () {
+            taskArr = taskArr.filter((item) => item.id !== delId);
+            displayTask();
+            storeData();
+          });
+        });
+
+        EditButton.forEach((elm) => {
+          elm.addEventListener("click", function () {
+            const editId = localStorage.getItem("delItemId");
+            let li = elm.parentElement;
+            let inputFeild = document.createElement("input");
+
+            // spanTag.innerText = "enter more then 7 digit";
+            // spanTag.classList.add("hidden", "mt-1", "text-red-600");
+
+            inputFeild.classList.add("w-full", "ring-1");
+            let pTag1 = li.children[0];
+            inputFeild.value = pTag1.innerHTML;
+            li.replaceChild(inputFeild, pTag1);
+
+            let delbtn = li.children[1];
+            let edititem = li.children[2];
+            let saveBtn = li.children[3];
+            console.log("li", li);
+            delbtn.classList.toggle("hidden");
+            edititem.classList.toggle("hidden");
+            saveBtn.classList.toggle("hidden");
+
+           
+            // pTag1.classList.toggle("hidden"),
+          });
+        });
+
+        const saveButton = document.querySelectorAll(".saveButton");
+        saveButton.forEach((saveItem) => {
+          saveItem.addEventListener("click", function () {
+            const savaItemId = saveItem.getAttribute("data-id");
+            let li = saveItem.parentElement;
+            let inputFeild = li.querySelector("input");
+            console.log(inputFeild);
+            
+            taskArr = taskArr.map((item) =>
+              item.id === savaItemId
+                ? { ...item, taskName: inputFeild.value }
+                : item
+            );
+            displayTask();
+            storeData();
+          });
+        });
+      }
+
+      displayTask();
+    </script>
+  </body>
+</html>
