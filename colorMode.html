@@ -21,24 +21,33 @@
         const mainDiv = document.getElementById("main")
 
 
-        lightBtn.addEventListener("click", function(){
+        lightBtn.addEventListener("click",time)
+         function time(){
+
             mainDiv.classList.toggle("bg-blue-400")
-            mainDiv.classList.toggle( "text-gray-300")
-            lightBtn.classList.toggle( "text-white")
-            lightBtn.classList.toggle("bg-gray-700",  "font-xl")
-            lightBtn.classList.toggle(  "font-xl")
+            mainDiv.classList.toggle("text-gray-300")
+            lightBtn.classList.toggle("text-white")
+            lightBtn.classList.toggle("bg-gray-700")
+            lightBtn.classList.toggle("font-xl")
 
             if(lightBtn.textContent === "Light Mode"){
                 lightBtn.textContent = "Dark Mode"
-            }else{
-                lightBtn.textContent = "Light Mode"
             }
+            else{
+                lightBtn.textContent = "Light Mode"
+            } 
 
+        }
 
+        // const before = new Date().getTime()
+        // time()
+        // const after = new Date().getTime()
+        // const timetaken = after- before
+        // console.log("time",timetaken);
+        console.time("timer")
+        time()
+        console.timeLog("timer");
 
-
-            
-        })
     </script>
     
 </body>
