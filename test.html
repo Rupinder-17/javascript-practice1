@@ -23,9 +23,25 @@
         function showtext(){
 
             paragraph.classList.contains("hidden") ? paragraph.classList.remove("hidden"): paragraph.classList.add("hidden")
+            localStorage.setItem("isContentVisible", true)
+
         }
+
+        function onPageLoad(){
+            let contentVisible = localStorage.getItem("isContentVisible")|| false
+            if(contentVisible){
+                paragraph.classList.remove("hidden")
+            }
+            else{
+                paragraph.classList.add("hidden")
+            }
+        }
+        onPageLoad()
+        
         
     </script>
     
 </body>
 </html>
+
+

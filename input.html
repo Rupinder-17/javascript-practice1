@@ -25,8 +25,6 @@
         const ulList = document.getElementById("userList");
 
         addBtn.addEventListener("click", addTask);
-        // updateBtn.addEventListener("click", updateTask);
-
         function addTask() {
             let inputData = inputText.value.trim();
             if (inputData === "") return;
@@ -41,6 +39,7 @@
             displayList();
             storeList();
             inputText.value = "";
+
         }
 
         function displayList() {
@@ -48,9 +47,9 @@
             arrayData.forEach((item) => {
                 let listData = `<li class="flex bg-white px-1 py-2">
                     <p class="w-full">${item.taskName}</p>
-                    <button class="delItem bg-red-500 text-white px-2 ml-2" data-item="${item.id}">Del</button>
-                    <button class="updateItem hidden bg-green-500 text-white px-2 ml-2" data-item="${item.id}">Save</button>
-                    <button class="editItem bg-yellow-500 text-white px-2 ml-2" data-item="${item.id}">Edit</button>
+                    <button class="delItem bg-red-500 text-white px-2 rounded ml-2" data-item="${item.id}">Del</button>
+                    <button class="updateItem hidden bg-green-500 text-white rounded px-2 ml-2" data-item="${item.id}">Save</button>
+                    <button class="editItem bg-yellow-500 text-white rounded px-2 ml-2" data-item="${item.id}">Edit</button>
                 </li>`;
                 ulList.innerHTML += listData;
             });
@@ -71,19 +70,19 @@
                 edItem.addEventListener("click", function() {
                     let li = edItem.parentElement;
                     let inputtag = document.createElement("input")
+                    inputtag.classList.add("w-full", "ring-1")
                     li.appendChild(inputtag)
                     console.log("li",li);
 
                     let pTag = li.children[0];
                     inputtag.value = pTag.innerText
-                    // let inputTag = li.children[1];
-                    let delBtn = li.children[2];
-                    let saveBtn = li.children[3];
-                    let editBtn = li.children[4];
+                    li.replaceChild(inputtag, pTag)
+                    let delBtn = li.children[1];
+                    let saveBtn = li.children[2];
+                    let editBtn = li.children[3];
 
-                    pTag.classList.toggle("hidden");
-                    inputtag.classList.toggle("hidden");
-                    delBtn.classList.toggle("hidden")
+
+                    delBtn.classList.toggle("hidden");
                     saveBtn.classList.toggle("hidden");
                     editBtn.classList.toggle("hidden");
                 });

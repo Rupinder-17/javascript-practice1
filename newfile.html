@@ -1,150 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css"
-    />
-    <style>
-      body {
-        background: rgb(239, 237, 237);
-      }
-    </style>
-  </head>
-  <body>
-    <div
-      class="w-96 shadow-xl shadow-inner bg-white m-auto px-3 rounded-xl pb-8"
-    >
-      <div class="w-80 h-fit m-auto mt-4">
-        <div class="py-4">
-          <h1 class="text-2xl font-semibold">My to-do List</h1>
-        </div>
-        <div class="flex w-full">
-          <input
-            type="text"
-            id="inputText"
-            class="px-1 w-[86%] ring-1 ring-gray-200"
-            placeholder="Enter a new task"
-          />
-          <button
-            id="addText"
-            class="text-white bg-blue-500 py-2 w-24 font-semibold"
-          >
-            Add Task
-          </button>
-          <button id="updatebtn" class="text-white bg-blue-500 py-2 w-24 font-semibold hidden">
-            Update
-          </button>
+</head>
+<body>
+    <div class="w-96 m-auto my-8 bg-gray-200 shadow h-96 px-4">
+        <div class="py-3 text-center">
+            <input class="bg-gray-100 w-72 py-1" id="textInput" type="text">
+            <button id="AddBtn"  class="bg-blue-500 px-3 text-white py-1">Add</button>
         </div>
         <div>
-          <ul id="listItem"></ul>
+            <ul id="userList" class=" space-y-3 "></ul>
         </div>
-      </div>
     </div>
     <script>
-      const inputText = document.getElementById("inputText");
-      const addData1 = document.getElementById("addText");
-      const updatebtn = document.getElementById("updatebtn");
-      const listItem = document.getElementById("listItem");
-      addData1.addEventListener("click", addData);
-      updatebtn.addEventListener("click", updateTask);
+        let arrayData = JSON.parse(localStorage.getItem("todo")) || [];
+        const inputText = document.getElementById("textInput");
+        const addBtn = document.getElementById("AddBtn");
+        const ulList = document.getElementById("userList");
 
-      let objArr = JSON.parse(localStorage.getItem("todolist1")) || [];
-      let currentEditItemId = null;
+        addBtn.addEventListener("click", addTask);
 
-      function addData() {
-        if (inputText.value == "") {
-          alert("Please enter a task");
-          return;
+        function addTask() {
+            let inputData = inputText.value.trim();
+            if (inputData === "") return;
+
+            let obj = {
+                id: window.crypto.randomUUID(),
+                taskName: inputData,
+                completed: false,
+            };
+
+            arrayData.push(obj);
+            displayList();
+            storeList();
+            inputText.value = "";
         }
 
-        let userTask = inputText.value.trim();
-        let taskObj = {
-          id: uniqueId(),
-          taskName: userTask,
-          taskStatus: false,
-        };
-        objArr.push(taskObj);
-        displayList();
-        storeData();
-        inputText.value = "";
-      }
+        function displayList() {
+            ulList.innerHTML = "";
+            arrayData.map((item) => {
+                let listData = `
+                <li class="flex items-center bg-white px-1 py-2 space-x-2">
+                    <p class="w-full">${item.taskName}</p>
+                    <input type="text" class="hidden bg-gray-100 flex-grow" value="${item.taskName}">
+                    <button class="delItem bg-red-500 text-white px-2 py-1" data-item="${item.id}">del</button>
+                    <button class="updateItem hidden bg-green-500 text-white px-2 py-1" data-item="${item.id}">up</button>
+                    <button class="editItem bg-blue-500 text-white px-2 py-1" data-item="${item.id}">edit</button>
+                </li>`;
+                ulList.innerHTML += listData;
+            });
 
-      function displayList() {
-        listItem.innerHTML = "";
-        objArr.forEach((element) => {
-          const listItem1 = `
-            <li class="flex justify-between items-center bg-gray-100 w-full hover:bg-gray-200 p-2 my-2 rounded">
-                <span><input type="checkbox" ${element.taskStatus ? "checked" : ""} class="" onclick="checkList('${element.id}')"></span>
-                <p class="w-full px-3 ${element.taskStatus ? "line-through" : ""}">${element.taskName}</p>
-                <button class="deleteButton" data-id="${element.id}"><i class="fa-solid fa-trash-arrow-up text-red-600 text-xl"></i></button>
-                <button class="editBtn" data-id="${element.id}">Edit</button>
-            </li>`;
-          listItem.innerHTML += listItem1;
-        });
-
-        document.querySelectorAll(".deleteButton").forEach((element) => {
-          element.addEventListener("click", function () {
-            const delItem = element.getAttribute("data-id");
-            if (confirm("Are you sure you want to delete?")) {
-              objArr = objArr.filter((item) => item.id !== delItem);
-              displayList();
-              storeData();
-            }
-          });
-        });
-
-        document.querySelectorAll(".editBtn").forEach((element) => {
-          element.addEventListener("click", function () {
-            const editItem = element.getAttribute("data-id");
-            const editTask = objArr.find((item) => item.id === editItem);
-            currentEditItemId = editItem;
-            inputText.value = editTask.taskName;
-            addData1.classList.add("hidden");
-            updatebtn.classList.remove("hidden");
-          });
-        });
-      }
-
-      function updateTask() {
-        if (inputText.value == "") {
-          alert("Please enter a task");
-          return;
+            addEventListeners();
         }
 
-        objArr = objArr.map((item) =>
-          item.id === currentEditItemId ? { ...item, taskName: inputText.value } : item
-        );
+        function addEventListeners() {
+            const delItems = document.querySelectorAll(".delItem");
+            delItems.forEach((delItem) => {
+                delItem.addEventListener("click", function () {
+                    const itemId = delItem.getAttribute("data-item");
+                    arrayData = arrayData.filter((element) => element.id !== itemId);
+                    displayList();
+                    storeList();
+                });
+            });
+
+            const editItems = document.querySelectorAll(".editItem");
+            editItems.forEach((editItem) => {
+                editItem.addEventListener("click", function () {
+                    const itemId = editItem.getAttribute("data-item");
+                    const li = editItem.parentElement;
+                    console.log("nnnn",li)
+                    const inputField = li.querySelector("input[type='text']");
+                    const updateBtn = li.querySelector(".updateItem");
+                    const pTag = li.querySelector("p");
+
+                    inputField.classList.toggle("hidden");
+                    pTag.classList.toggle("hidden");
+                    updateBtn.classList.toggle("hidden");
+                    editItem.classList.toggle("hidden");
+
+                    inputField.focus();
+                });
+            });
+
+            const updateItems = document.querySelectorAll(".updateItem");
+            updateItems.forEach((updateItem) => {
+                updateItem.addEventListener("click", function () {
+                    const itemId = updateItem.getAttribute("data-item");
+                    const li = updateItem.parentElement;
+                    const inputField = li.querySelector("input[type='text']");
+                    const pTag = li.querySelector("p");
+                    const editBtn = li.querySelector(".editItem");
+
+                    const updatedTask = inputField.value.trim();
+                    if (updatedTask === "") return;
+
+                    arrayData = arrayData.map((item) =>
+                        item.id === itemId ? { ...item, taskName: updatedTask } : item
+                    );
+
+                    displayList();
+                    storeList();
+                });
+            });
+        }
+
+        function storeList() {
+            localStorage.setItem("todo", JSON.stringify(arrayData));
+        }
 
         displayList();
-        storeData();
-        inputText.value = "";
-        addData1.classList.remove("hidden");
-        updatebtn.classList.add("hidden");
-      }
-
-      function checkList(id) {
-        objArr = objArr.map((item) =>
-          item.id === id ? { ...item, taskStatus: !item.taskStatus } : item
-        );
-
-        displayList();
-        storeData();
-      }
-
-      function uniqueId() {
-        return window.crypto.randomUUID();
-      }
-
-      function storeData() {
-        localStorage.setItem("todolist1", JSON.stringify(objArr));
-      }
-
-      displayList();
     </script>
-  </body>
+</body>
 </html>
