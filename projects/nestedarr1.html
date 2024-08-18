@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let arr = [7, 8, 9];
+      let multiple = 1;
+
+
+      arr.forEach((items)=>multiple *= items )
+
+     console.log(multiple);
+     
+      for (let i = 0; i < arr.length; i++) {
+        multiple *= arr[i];
+      }
+      console.log(multiple);
+
+
+
+      let nestedarr = [
+        [5, 6, 7],
+        [6, 9, 8],
+      ];
+      let sum = 0;
+
+      nestedarr.forEach((item)=>{
+        console.log(item);
+        item.forEach((elm)=>{
+          console.log(elm);
+          sum += elm
+        })
+      })
+      console.log(sum);
+      
+
+      // for (const element of nestedarr) {
+      //   console.log(nestedarr);
+      //   for (const ele of element) {
+      //     multiple1 *= ele;
+      //   }
+      // }
+      // console.log("total",multiple1);
+
+      let nestedarr2 = [
+        [
+          [5, 6, 7],
+          [7, 4, 7],
+          [2, 4, 3, 9],
+        ],
+        [
+            [6,7,4],
+            [5,6,7],
+            [5,5,6]
+        ]
+        
+      ];
+      let total = 1;
+
+      nestedarr2.forEach((item)=>{
+        console.log("items", item);
+        item.forEach((items)=>{
+          console.log(items);
+          items.forEach((elm)=>{
+            total *= elm
+          })
+          
+        })
+        
+      })
+      console.log(total);
+      
+
+
+
+      for (const element of nestedarr2) {
+        console.log("one",nestedarr2);
+
+        for (const elm of element) {
+            console.log("elm",elm);
+            for(const item of elm){
+                total *= item
+            }
+            
+        }
+      }
+      console.log("total",total);
+      
+    </script>
+  </body>
+</html>

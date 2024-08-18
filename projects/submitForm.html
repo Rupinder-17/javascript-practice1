@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css"
+    />
+  </head>
+  <body>
+    <form method="post" id="submitForm">
+      <div class="relative w-80 border py-4 px-4 m-auto mt-4 rounded-sm">
+        <div class="pb-5">
+          <h1 class="text-2xl font-medium text-center">Register</h1>
+        </div>
+        <div class="px-2 text-gray-600 font-semibold space-y-3">
+          <div id="userinput">
+            <label for="" class="">Username</label><br />
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="w-60 border rounded focus:border-gray-300"
+            />
+            <p class="text-red-700" id="usererror"></p>
+          </div>
+          <div>
+            <label for="">Email</label><br />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              class="w-60 border rounded focus:ring-1"
+            />
+            <p class="text-red-700" id="emailError"></p>
+          </div>
+          <div>
+            <label for="">Password</label> <br />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="w-60 rounded border focus:border-gray-300"
+            />
+            <div id="eyeToggle1" class="absolute top-[57%] left-60">
+              <i class="fa-solid fa-eye" ></i>
+            </div>
+            <p class="text-red-700" id="passwordError"></p>
+          </div>
+          <div>
+            <label for="">Confirm Password</label><br />
+            <input
+              type="password"
+              name="confirmpassword"
+              id="passwordC"
+              class="w-60 rounded border focus:border-gray-300"
+            />
+            <p class="text-red-700" id="confirmPasswordError"></p>
+            <div id="eyeToggle2" class="absolute top-[74%]  left-60">
+              <i class="fa-solid fa-eye" ></i>
+            </div>
+          </div>
+          <div>
+            <button
+              type="submit"
+              class="bg-blue-700 w-60 text-white py-1 rounded mt-3"
+              id="registerBtn"
+            >
+              Register
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      let userArray = JSON.parse(localStorage.getItem("RegisterForm")) || [];
+      const userInput = document.getElementById("userinput");
+      const userName = document.getElementById("username");
+      const userEmail = document.getElementById("email");
+      const userPassword = document.getElementById("password");
+      const confirmPassword = document.getElementById("passwordC");
+      const registerBtn = document.getElementById("registerBtn");
+      const formsubmit = document.getElementById("submitForm");
+      // registerBtn.addEventListener("click", submitForm);
+
+      const userError = document.getElementById("usererror");
+      const emailError = document.getElementById("emailError");
+      const passwordError = document.getElementById("passwordError");
+      const passwordCError = document.getElementById("confirmPasswordError");
+
+      const eyeToggle1 = document.getElementById("eyeToggle1");
+      const eyeToggle2 = document.getElementById("eyeToggle2");
+
+      // eyeToggle1.addEventListener("click", function () {
+      //   const type =
+      //     userPassword.getAttribute("type") === "password"
+      //       ? "text"
+      //       : "password";
+      //   userPassword.setAttribute("type", type);
+      //   this.innerHTML = type=== "password"
+      //     ? '<i class="fas fa-eye"></i>'
+      //     : '<i class="fas fa-eye-slash"></i>';
+      // });
+
+
+      eyeToggle1.addEventListener("click", function(){
+        const type = userPassword.getAttribute("type") === "password" ? "type" :"password"
+        userPassword.setAttribute("type", type)
+        this.innerHTML = type ==="password"
+        ? '<i class="fas fa-eye"></i>'
+        : '<i class="fas fa-eye-slash"></i>';
+
+      })
+
+      eyeToggle2.addEventListener("click", function () {
+        const type =
+          confirmPassword.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        confirmPassword.setAttribute("type", type);
+        this.innerHTML = type === "password"
+          ? '<i class="fas fa-eye"></i>'
+          : '<i class="fas fa-eye-slash"></i>';
+      });
+
+      formsubmit.addEventListener("submit", submitForm);
+
+      function submitForm(event) {
+        event.preventDefault();
+
+        let isvaild = true;
+
+        let username = userName.value;
+        let useremail = userEmail.value;
+        let password = userPassword.value;
+        let passwordConfirm = confirmPassword.value;
+
+        if (userName.value === "") {
+          userError.textContent = "username is required";
+          isvaild = false;
+        } else if (userName.value.length < 3 || userName.value.length > 20)
+          userError.textContent =
+            "Username must be between 3 and 20 characters.";
+        else {
+          userError.textContent = "";
+        }
+
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (userEmail.value === "") {
+          emailError.textContent = "email is required";
+          isvaild = false;
+        } else if (!emailPattern.test(userEmail.value)) {
+          emailError.textContent = "invaild email formet";
+          isvaild = false;
+        } else {
+          emailError.textContent = "";
+        }
+
+        if (userPassword.value === "") {
+          passwordError.innerText = "password is required";
+          isvaild = false;
+        } else if (userPassword.value.length !== confirmPassword.value) {
+          passwordCError.textContent = "password is not match";
+          isvaild = false;
+        }
+
+        let userObj = {
+          userinputName: username,
+          userEmaildata: useremail,
+          userpassword: password,
+          userPasswordConfirm: passwordConfirm,
+        };
+        userArray.push(userObj);
+        storeData();
+      }
+      function storeData() {
+        localStorage.setItem("RegisterForm", JSON.stringify(userArray));
+      }
+    </script>
+  </body>
+</html>

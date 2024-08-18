@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let arr = [2, 4, 6, 7, 9];
+      let sum = 0;
+
+      for (let i = 0; i < arr.length; i++) {
+        sum += arr[i];
+      }
+      console.log(sum);
+
+      let array2D = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ];
+      //   console.log(array2D);
+      let sum2DArr = 0;
+
+      for (let i = 0; i < array2D.length; i++) {
+        console.log(array2D[i]);
+
+        let nestedArr = array2D[i];
+
+        for (let j = 0; j < nestedArr.length; j++) {
+          sum2DArr += nestedArr[j];
+        }
+      }
+      console.log(sum2DArr);
+
+      let array3D = [
+        [
+          [1, 2, 3],
+          [4, 5, 6],
+        ],
+        [
+          [7, 8, 9],
+          [2, 6, 7],
+        ],
+      ];
+
+      let sum3DArr = 0;
+
+      for (let i = 0; i < array3D.length; i++) {
+        console.log(array3D);
+        let nestArr1 = array3D[i];
+        for (let j = 0; j < nestArr1.length; j++) {
+          console.log(nestArr1);
+
+          let nestArr2 = nestArr1[j];
+          for (let k = 0; k < nestArr2.length; k++) {
+            sum3DArr += nestArr2[k];
+          }
+        }
+      }
+      console.log(sum3DArr);
+
+      //   console.log(array3D);
+    </script>
+  </body>
+</html>

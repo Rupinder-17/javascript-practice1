@@ -1,44 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-        body{
-            background-color: rgb(3, 3, 46);
-        }
-        .container{
-            display: flex;
-            justify-content: space-between;
-            color: aliceblue;
-        }
-        .navbar{
-            display: flex;
-            gap: 27px;
-            list-style: none;
-            padding-right: 14px;
-            font-size: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div>
-            <h2>Rupinder Kaur</h2>
-            <h1>FullStack developer</h1>
-
-        </div>
-        <div >
-            <ul class="navbar">
-                <li>Home</li>
-                <li>Skills</li>
-                <li>Services</li>
-                <li>Projects</li>
-                <li>Experience</li>
-                <li>Contect</li>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css"
+    />
+  </head>
+  <body>
+    <section class="">
+      <div>
+        <ul class="flex gap-10 justify-end text-lg px-11 text-slate-500 py-6">
+          <li>About</li>
+          <li>Projects</li>
+          <li>Experience</li>
+          <li>Contact</li>
+        </ul>
+      </div>
+      <div
+        class="flex px-11 py-11 h-screen border-x-gray-300 bg-grid-lighter bg-gradient-to-r from-purple-50 via-blue-100 to-blue-50"
+      >
+        <div class="">
+          <div class="text-2xl space-y-6 mt-10">
+            <h2
+              class="bg-gradient-to-r from-indigo-300 via-slate-600 to-gray-500 text-transparent bg-clip-text text-5xl font-bold"
+            >
+              Rupinder Kaur
+            </h2>
+          </div>
+          <div>
+            <p class="w-[76%] text-gray-600 mt-11">
+              I am Rupinder Kaur, a passionate and dedicated developer with a
+              keen interest in creating innovative and efficient software
+              solutions. With a strong foundation in coding and a continuous
+              drive to learn, I have developed a diverse skill set that allows
+              me to tackle a variety of challenges in the tech world.
+            </p>
+          </div>
+          <div class="py-16">
+            <h2 class="text-2xl font-medium text-blue-500">Skills</h2>
+            <ul class="flex gap-9 text-xl py-4">
+              <img src="/images/html-5.svg" alt="htlm logo" class="w-24" />
+              <li class="text-red-800 font-medium py-4 hover:text-cyan-900">
+                HTML
+              </li>
+              <img src="/images/css.svg" alt="htlm logo" class="w-24" />
+              <li class="text-green-700 font-medium py-4 hover:text-teal-400">
+                CSS
+              </li>
+              <img src="/images/javascript.svg" alt="htlm logo" class="w-24" />
+              <li class="text-blue-800 font-medium py-4 hover:text-lime-700">
+                Javascript
+              </li>
+              <img src="/images/react.svg" alt="htlm logo" class="w-24" />
+              <li class="text-yellow-800 py-4 font-medium hover:text-amber-600">
+                React
+              </li>
+              <img src="/images/github.svg" alt="htlm logo" class="w-24" />
+              <li class="text-cyan-800 py-4 font-medium hover:text-red-700">
+                Github
+              </li>
+              <img src="/images/tailwind-css.svg" class="w-24 h-14" alt="" />
+              <li class="text-teal-800 py-4 font-medium hover:text-red-700">
+                Tailwind
+              </li>
             </ul>
+          </div>
         </div>
-    </div>
-</body>
+
+        <div class="px-14">
+          <img src="/images/detailimg.png" alt="" width="190%" />
+        </div>
+      </div>
+
+      <div class="bg-gray-100  p-10 h-80 py-3 mt-4">
+        <h4 class="bg-slate-400 w-24 m-auto rounded-xl text-center font-medium text-gray-700 px-1 py-1">About me</h4>
+        <p class="text-center max-w-[50%] m-auto mt-7 ">
+          Hello! I'm Rupinder Kaur, a passionate front-end developer with a special ability for design and a commitment to creating user-friendly and
+          responsive web applications. With a strong foundation in HTML, CSS,
+          JavaScript, and React, I enjoy crafting seamless and dynamic user
+          experiences.
+        </p>
+          <p class="max-w-[50%] m-auto mt-7 text-center">
+
+            My journey in the tech world began with a fascination for
+            how things work, and this curiosity has driven me to continually learn
+            and grow my skills. I am dedicated to staying up-to-date with the
+            latest industry trends and technologies, ensuring that I can deliver
+            innovative solutions that meet the needs of users and clients alike.
+          </p> 
+      </div>
+      <div class="bg-slate-100 mt-4">
+        <h3
+          class="text-center font-medium text-3xl text-gray-500 m-auto rounded-xl px-4 py-1"
+        >
+          Contect
+        </h3>
+        <div class="flex py-12 items-center gap-10 justify-center">
+          <p><i class="fa-regular fa-envelope text-8xl"></i></p>
+          <h1 class="text-5xl font-semibold">rupinderrandhay90@gmail.com</h1>
+        </div>
+      </div>
+    </section>
+    <section></section>
+  </body>
 </html>

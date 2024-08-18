@@ -3,43 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Rupinder Kaur - Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div>
-        <div class="bg-red-300 w-80 mt-8 px-6 py-6">
-            <input type="text" id="inputid">
-            <button id="Addbtn">Add</button>
+<body class="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+
+    <header class="py-6">
+        <nav class="container mx-auto flex justify-center">
+            <ul class="flex space-x-6">
+                <li><a href="#about" class="hover:underline">About</a></li>
+                <li><a href="#projects" class="hover:underline">Projects</a></li>
+                <li><a href="#contact" class="hover:underline">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="about" class="py-12">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">About Me</h1>
+            <p class="mt-4 text-lg">Hi, I'm Rupinder Kaur, a developer with a passion for creating dynamic and responsive web applications.</p>
         </div>
-        <div>
-            <h1 id="head"></h1>
+    </section>
+
+    <section id="projects" class="py-12 bg-gradient-to-r from-purple-600 to-pink-600">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">Projects</h1>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-6 bg-white bg-opacity-20 rounded-lg">
+                    <h2 class="text-2xl font-bold">Project 1</h2>
+                    <p class="mt-2">Description of project 1.</p>
+                </div>
+                <div class="p-6 bg-white bg-opacity-20 rounded-lg">
+                    <h2 class="text-2xl font-bold">Project 2</h2>
+                    <p class="mt-2">Description of project 2.</p>
+                </div>
+                <!-- Add more projects as needed -->
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section id="contact" class="py-12">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">Contact</h1>
+            <form id="contact-form" class="mt-8 space-y-4">
+                <div>
+                    <label for="name" class="block text-left">Name:</label>
+                    <input type="text" id="name" name="name" class="w-full p-2 rounded-md text-black" required>
+                </div>
+                <div>
+                    <label for="email" class="block text-left">Email:</label>
+                    <input type="email" id="email" name="email" class="w-full p-2 rounded-md text-black" required>
+                </div>
+                <div>
+                    <label for="message" class="block text-left">Message:</label>
+                    <textarea id="message" name="message" class="w-full p-2 rounded-md text-black" required></textarea>
+                </div>
+                <button type="submit" class="w-full py-2 bg-blue-700 rounded-md hover:bg-blue-800">Send</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-6 bg-gradient-to-r from-blue-700 to-purple-800">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Rupinder Kaur</p>
+        </div>
+    </footer>
+
     <script>
-        let arr1 = [];
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Thank you for your message!');
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rupinder Kaur - Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
 
-        const inputId = document.getElementById("inputid");
-        const addButton = document.getElementById("Addbtn");
-        const heading = document.getElementById("head");
+    <header class="py-6">
+        <nav class="container mx-auto flex justify-center">
+            <ul class="flex space-x-6">
+                <li><a href="#about" class="hover:underline">About</a></li>
+                <li><a href="#projects" class="hover:underline">Projects</a></li>
+                <li><a href="#contact" class="hover:underline">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        addButton.addEventListener("click", addData);
+    <section id="about" class="py-12">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">About Me</h1>
+            <p class="mt-4 text-lg">Hi, I'm Rupinder Kaur, a developer with a passion for creating dynamic and responsive web applications.</p>
+        </div>
+    </section>
 
-        function addData() {
-            let taskName = inputId.value;
-            let userTasks = {
-                nameofTask: taskName,
-            };
+    <section id="projects" class="py-12 bg-gradient-to-r from-purple-600 to-pink-600">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">Projects</h1>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-6 bg-white bg-opacity-20 rounded-lg">
+                    <h2 class="text-2xl font-bold">Project 1</h2>
+                    <p class="mt-2">Description of project 1.</p>
+                </div>
+                <div class="p-6 bg-white bg-opacity-20 rounded-lg">
+                    <h2 class="text-2xl font-bold">Project 2</h2>
+                    <p class="mt-2">Description of project 2.</p>
+                </div>
+                <!-- Add more projects as needed -->
+            </div>
+        </div>
+    </section>
 
-            arr1.push(userTasks);
+    <section id="contact" class="py-12">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">Contact</h1>
+            <form id="contact-form" class="mt-8 space-y-4">
+                <div>
+                    <label for="name" class="block text-left">Name:</label>
+                    <input type="text" id="name" name="name" class="w-full p-2 rounded-md text-black" required>
+                </div>
+                <div>
+                    <label for="email" class="block text-left">Email:</label>
+                    <input type="email" id="email" name="email" class="w-full p-2 rounded-md text-black" required>
+                </div>
+                <div>
+                    <label for="message" class="block text-left">Message:</label>
+                    <textarea id="message" name="message" class="w-full p-2 rounded-md text-black" required></textarea>
+                </div>
+                <button type="submit" class="w-full py-2 bg-blue-700 rounded-md hover:bg-blue-800">Send</button>
+            </form>
+        </div>
+    </section>
 
-            inputId.value = ""; // Clear the input field after adding the task
+    <footer class="py-6 bg-gradient-to-r from-blue-700 to-purple-800">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Rupinder Kaur</p>
+        </div>
+    </footer>
 
-            heading.innerHTML = ""; // Clear the heading before appending new tasks
-            arr1.forEach(item => {
-                heading.innerHTML += `<div><li>${item.nameofTask}</li></div>`;
-            });
-        }
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Thank you for your message!');
+        });
     </script>
 </body>
 </html>

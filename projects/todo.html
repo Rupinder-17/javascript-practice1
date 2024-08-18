@@ -132,22 +132,15 @@
 
       function checkList(id) {
         objArr = objArr.map((elm) =>
+        
           elm.id === id ? { ...elm, taskStatus: !elm.taskStatus } : elm
+
         );
 
         displayList();
         StorageData();
       }
-      // function deletelist(id) {
-
-      //   if(confirm("are you sure want to delete ?")){
-      //     objArr = objArr.filter((items) => items.id !== id);
-      //     displayList();
-      //   StorageData();
-
-      //   }
-      // }
-
+     
       function uniqueId() {
         return window.crypto.randomUUID();
       }
