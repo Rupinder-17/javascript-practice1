@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const isUserAdult = (age) => {
+        return new Promise((res, rej) => {
+          setTimeout(function () {
+            if (age > 18) {
+              res({ status: true, age: age, message: "eligible for voting" });
+            } else {
+              rej({
+                status: false,
+                age: age,
+                message: "not eligible for voting",
+              });
+            }
+          }, 4000);
+        });
+      };
+      isUserAdult(2).then((response)=>{
+        console.log(response);
+
+      }).catch((response)=>{
+        console.log(response);
+
+      }).finally(()=>{
+        console.log("final result is declered");
+      })
+    //   let userAge = isUserAdult(22);
+    //   console.log(userAge);
+
+
+
+    const isUserDriveCar = (age)=>{
+      return new Promise((res,rej)=>{
+        setTimeout(function(){
+          if(age>=18){
+            res({status: true, age:age, messege: "yes you are eligible to drive a car"})
+          }
+          else{
+            rej({status: false, age:age, message: "not cannot eligible to drive a car"})
+          }
+        }, 4000)
+      })
+    }
+    isUserDriveCar(22).then((response)=>{
+      console.log(response);
+      
+    }).catch((response)=>{
+      console.log(response);
+      
+    }).finally(()=>{
+      console.log("this is your finally result");
+      
+    })
+    </script>
+  </body>
+</html>
