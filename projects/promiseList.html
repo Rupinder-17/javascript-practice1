@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+  </head>
+  <body>
+    <div class="border w-96 m-auto py-5 bg-gray-100 shadow-lg mt-6">
+      <h2 class="text-center font-medium text-3xl text-blue-400">FOOD ITEMS</h2>
+      <ul id="list" class="px-7 py-4"></ul>
+      <button id="placeOrder" class="bg-blue-800 ml-4 px-5 py-1 text-gray-200">
+        Place Order
+      </button>
+    </div>
+
+    <script>
+      let foodItem = [
+        {
+          id: 1,
+          item: "Noodles",
+          status: false,
+        },
+        {
+          id: 2,
+          item: "Burgur",
+          status: false,
+        },
+        {
+          id: 3,
+          item: "Salad",
+          status: false,
+        },
+        {
+          id: 4,
+          item: "Pizza",
+          status: false,
+        },
+        {
+          id: 5,
+          item: "Cook",
+          status: false,
+        },
+      ];
+      const list = document.getElementById("list");
+      const placeOrder = document.getElementById("placeOrder");
+      placeOrder.addEventListener("click", startProcess);
+
+      const renderFoodList = (food) => {
+        list.innerHTML = " ";
+        foodItem.map((element) => {
+          const foodList = `<li class="flex gap-4" >
+            <span>
+            <input type="checkbox" ${
+              element.status ? "checked" : ""
+            } id="" onclick="checkList(${element.id})">
+
+                 </span>
+                    <p>${element.item}</p>
+                    </li>`;
+
+          list.innerHTML += foodList;
+        });
+      };
+
+      const checkList = (id) => {
+        foodItem = foodItem.map((elm) =>
+          elm.id === id ? { ...elm, status: !elm.status } : elm
+        );
+      };
+      function orderList(foodId) {
+        return new Promise((res, rej) => {
+          const checkedList = foodItem.filter((item) => item.status);
+          if (checkedList.length > 0) {
+            const checkItemNames = checkedList.map((foodItem) => foodItem.item);
+            setTimeout(function () {
+              res(`your order ${checkItemNames} is placed`);
+            }, 3000);
+          } else {
+            rej("error, there is no order any fooditem");
+          }
+        });
+      }
+
+      function foodPrepear(id) {
+        return new Promise((res) => {
+          setTimeout(function () {
+            res(`your order  is ready`);
+          }, 4000);
+        });
+      }
+
+      function foodPickUp(id) {
+        return new Promise((res) => {
+          setTimeout(function () {
+            res("your order is pickup by driver");
+          }, 5000);
+        });
+      }
+      function foodDilvery(id) {
+        return new Promise((res) => {
+          setTimeout(function () {
+            res("your order is successfully dilver");
+          }, 4000);
+        });
+      }
+
+      async function startProcess() {
+        try {
+          let placeOrderResponse = await orderList();
+          console.log(placeOrderResponse);
+          Toastify({
+            text: placeOrderResponse,
+            duration: 3000,
+            style: {
+              background: "linear-gradient(to right, red, black)",
+            },
+          }).showToast();
+
+          let foodprepearResponse = await foodPrepear();
+          Toastify({
+            text: foodprepearResponse,
+            duration: 3000,
+            style: {
+              background: "linear-gradient(to right, red, yellow)",
+            },
+          }).showToast();
+          console.log(foodprepearResponse);
+
+          let foodPickUpResponse = await foodPickUp();
+          Toastify({
+            text: foodPickUpResponse,
+            duration: 3000,
+            style: {
+              background: "linear-gradient(to right, blue, #96c94d)",
+            },
+          }).showToast();
+          console.log(foodPickUpResponse);
+
+          let foodDileryResponse = await foodDilvery();
+          Toastify({
+            text: foodDileryResponse,
+            duration: 3000,
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+          }).showToast();
+
+          
+        } catch (error) {
+           Toastify({
+            text: "Please select atleast one item from the list",
+            duration: 4000,
+            style: {
+              background: "linear-gradient(to right, red, #96c93d)",
+            },
+          }).showToast();
+          console.log(error);
+        }
+      
+      }
+
+      renderFoodList(foodItem);
+    </script>
+  </body>
+</html>

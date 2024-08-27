@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="https://gist.github.com/Rupinder-17/9468c735087eb165f1ff91ce29d343d7.js"></script>
+    <script>
+
+
+      function placeOrder(foodOrder) {
+          return new Promise((resolve, reject)=>{
+              if(foodOrder.food.length > 0){
+                  setTimeout(function(){
+                      resolve(`your order ${foodOrder.id} is placed succesfully`)
+
+                  },3000)
+
+              }
+              else{
+                  reject(`error, no order is placed`)
+              }
+          })
+
+      }
+
+      function foodPrepear(){
+          return new Promise((res)=>{
+              setTimeout(function(){
+                
+                  res(`your order ${foodOrder.id} is prepear`)
+
+              },5000)
+          })
+      }
+
+      function foodPickUp(){
+          return new Promise((res)=>{
+              setTimeout(function(){
+                  res(`your order ${foodOrder.id} is pickup by dilvery boy`)
+              }, 4000)
+          })
+      }
+
+      function dilverFood(){
+          return new Promise((res)=>{
+              setTimeout(function(){
+                  res(`your order ${foodOrder.id} is succesfully dilver `)
+              },3000)
+          })
+      }
+       const foodOrder = {
+          id: 12345,
+          food: ["pizza", "maggi", "burgur"]
+      }
+
+      // placeOrder(foodOrder).then((response)=>{
+      //     console.log(response);
+      //     return foodPrepear(foodOrder.id)
+
+      // }).then((response)=>{
+      //     console.log(response);
+      //     return foodPickUp(foodOrder.id)
+
+      // }).then((response)=>{
+      //     console.log(response);
+      //     return dilverFood(foodOrder.id)
+
+      // }).then((response)=>{
+      //     console.log(response);
+      // })
+      // .catch((response)=>{
+      //     console.log(response);
+
+      // })
+      // .finally(()=>{
+      //     console.log("your order is completed");
+
+      // })
+
+
+      async function startProcess(foodOrderP){
+          try{
+
+          let placeOrderResponse = await placeOrder(foodOrderP)
+          console.log(placeOrderResponse);
+
+          let foodprepearResponse = await foodPrepear(foodOrderP.id)
+          console.log(foodprepearResponse);
+
+          let foodPickUpResponse = await foodPickUp(foodOrderP.id)
+          console.log(foodPickUpResponse);
+
+          let foodDileryResponse = await dilverFood(foodOrderP.id)
+          console.log(foodDileryResponse);
+          }
+          
+          catch(error){
+            console.log(error);
+          }
+          finally{
+            console.log("your order is placed");
+          }
+      }
+      startProcess(foodOrder)
+    </script>
+  </body>
+</html>

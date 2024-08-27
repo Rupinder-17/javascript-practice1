@@ -32,12 +32,86 @@
         age: 56,
       };
 
-      const {name,  age, phone_number, } = obj
+      const { name, age, phone_number } = obj;
+      const arr1 = [10, [15, 20], 30];
+      const [aa, [b, cc], dd] = arr1;
+
+      console.log(`a = ${aa} b = ${b} c= ${cc} d= ${dd}`);
 
       console.log(name, age, phone_number);
-      
+      const car = {
+        brand: "Hyundai",
+        model: "Verna",
+        info: {
+          price: 1200000,
+          color: "white",
+        },
+      };
 
+      let {
+        brand,
+        model,
+        info: { price, color },
+      } = car;
 
+      console.log(brand, color, price);
+
+      const sum = (a, b) => a + b;
+      console.log(sum(2, 3));
+
+      const sum1 = (...a) => {
+        let total = 0;
+        a.forEach((item) => {
+          total += item;
+        });
+        // for(let index=0; index<a.length; index++){
+        //   total +=a[index]
+        // }
+        return total;
+      };
+
+      // with for of
+      const arr11 = (...num) => {
+        let sum = 0;
+        for (const item of num) {
+          sum += item;
+        }
+        console.log("sumof", sum);
+      };
+      arr11(1, 2, 3, 4, 5);
+
+      console.log(sum1(1, 2, 3, 4));
+      // sum1(1, 2, 3, 5);
+
+      const sumofnumbers = (...params) =>
+        params.reduce((acc, curr) => acc + curr, 0);
+      let sumof = sumofnumbers(2, 4, 6);
+      console.log(sumof);
+
+      const totalSum = (...arr) => arr.reduce((acc, curr) => acc * curr, 1);
+      let totalAns = totalSum(3, 5, 6);
+      console.log("totalAns", totalAns);
+      const minus = (...min) => min.reduce((acc, curr) => acc - curr, 0);
+      console.log(minus(2, 3, 5, 9));
+
+      //  for in
+      const forinSum = (...num) => {
+        let sum = 0;
+        for (let index in num) {
+          sum += num[index];
+        }
+        console.log("sumin", sum);
+      };
+      forinSum(2, 3, 88, 99, 77);
+
+      let array1 = [3, 6, 8, 9];
+
+      // array1.map((item)=>{
+
+      // })
+      // const evenNum = array1.filter((item) => item % 2 == 0);
+      const evenNum = array1.filter((item) => item % 2 !== 0);
+      console.log(evenNum);
     </script>
   </body>
 </html>

@@ -1,47 +1,45 @@
 
-// const getPromise = ()=>{
-//     return new Promise((resolve, reject) => {
+const getPromise = ()=>{
+    return new Promise((resolve, reject) => {
 
-//     console.log(" i am promise")
-//     // resolve("success")
-//     reject("here is error")
-// })}
-// let promise = getPromise();
-// promise.then((res)=>{
-//     console.log("promise is full fill", res)
+    console.log(" i am promise")
+    // resolve("success")
+    reject("here is error")
+})}
+let promise = getPromise();
+promise.then((res)=>{
+    console.log("promise is full fill", res)
 
-// })
-// promise.catch((err)=>{
-//     console.log("error here",err)
-// })
+ })
+ promise.catch((err)=>{
+    console.log("error here",err)
+ })
 
-// // function  getData (dataId, getNextData){
-// //     return new Promise((resolve, reject) => {
+function  getData (dataId, getNextData){
+    return new Promise((resolve, reject) => {
         
-// //         // console.log("data", dataId)
-// //         setTimeout(()=> {
-// //             console.log("data", dataId);
-// //             if(getNextData){
+        // console.log("data", dataId)
+        setTimeout(()=> {
+            console.log("data", dataId);
+            if(getNextData){
                 
-// //                 getNextData();
-// //             }
+                getNextData();
+            }
             
-// //         },2000)
-// //     })
+        },2000)
+    })
+    }
+    getData(1,()=>{
+        console.log("getting data2...")
+        getData(2, ()=>{
+            console.log("getting data3...")
+            getData(3, ()=>{
+                console.log("getting data4...")
+                getData(4)
+            })
 
-
-// //     }
-// //     getData(1,()=>{
-// //         console.log("getting data2...")
-// //         getData(2, ()=>{
-// //             console.log("getting data3...")
-// //             getData(3, ()=>{
-// //                 console.log("getting data4...")
-// //                 getData(4)
-// //             })
-
-// //         })
-// //     })
+        })
+    })
 // let key="email"
 // let obj={
 //     name:"rupinder",

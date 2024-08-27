@@ -1,11 +1,11 @@
-// import axios from "axios"
+import axios from "axios"
 
-// const getuser =()=>{
-//     const userlist =axios
-//     .get("https://jsonplaceholder.typicode.com/posts")
-//     .then((res)=>console.log(res.data))
-// }
-// getuser()
+const getuser =()=>{
+    const userlist =axios
+    .get("https://jsonplaceholder.typicode.com/posts")
+    .then((res)=>console.log(res.data))
+}
+getuser()
 
 // const id =()=>{
 //     const userId =axios
@@ -38,7 +38,7 @@
 //     console.log(res)
 // })
 
-}
+// }
 console.log(fr)
 let fruit4 =["apple","banana","grapes","mango"]
 for(let fr in fruit4){
