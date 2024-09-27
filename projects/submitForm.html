@@ -11,7 +11,7 @@
     />
   </head>
   <body>
-    <script src="https://gist.github.com/Rupinder-17/3c627674ddebea0c0fcc79e80f6323c1.js"></script>
+    <!-- <script src="https://gist.github.com/Rupinder-17/3c627674ddebea0c0fcc79e80f6323c1.js"></script> -->
     <form method="post" id="submitForm">
       <div class="relative w-80 border py-4 px-4 m-auto mt-4 rounded-sm">
         <div class="pb-5">
@@ -158,6 +158,9 @@
         } else if (userPassword.value.length !== confirmPassword.value) {
           passwordCError.textContent = "password is not match";
           isvaild = false;
+        }
+        else{
+          confirmPassword.value = ""
         }
 
         let userObj = {

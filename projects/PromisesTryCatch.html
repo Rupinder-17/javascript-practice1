@@ -148,6 +148,12 @@
             }).showToast()
         }
       }
+      fetch('https://fakestoreapi.com/products')
+            .then(res=>res.json())
+            .then(json=>console.log(json))
+            // write the sum of two numbers 
+            
+
 
       renderFoodList(foodItem);
     </script>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <style>
+    body {
+      background-image: url("https://scied.ucar.edu/sites/default/files/media/images/cirrocumulus1_big.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
+  <body>
+    <div
+      class="mt-4 flex flex-col items-center justify-center w-96 px-4 py-6 m-auto  rounded-xl shadow-2xl"
+    >
+      <div class="text-center text-gray-200 font-bold text-3xl mb-6">
+        <h1>Weather App</h1>
+      </div>
+      <div class="mt-4">
+        <input type="text" class="py-2 px-3 w-64" id="city-name" />
+        <button
+          id="weatherBtn"
+          class="py-2 bg-blue-800 text-white px-3 font-bold text-lg rounded"
+        >
+          Search
+        </button>
+      </div>
+
+      <div id="contanier" class="text-center space-y-4">
+        
+      </div>
+      <div>
+          <ul id="list"></ul>
+        </div>
+    </div>
+    <script>
+      const cityName = document.getElementById("city-name");
+      const weatherBtn = document.getElementById("weatherBtn");
+      const contanier = document.getElementById("contanier");
+      const list = document.getElementById("list");
+
+      const fetchApi = async () => {
+        const city = cityName.value;
+        cityName.value = ""; // Reset the input field after getting the city name
+        const apiKey = "09e7a1b8b2844ba990b110125243108";
+        const weatherData = JSON.parse(localStorage.getItem("weatherEntry")) || [];
+        console.log(weatherData);
+
+        try {
+          const response = await fetch(
+            `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`
+          );
+          const data = await response.json();
+          console.log(data);
+          weatherData.push(data);
+
+          localStorage.setItem("weatherEntry", JSON.stringify(weatherData));
+
+          const weatherDisplay = `
+            <img src="${data.current.condition.icon}" class="mx-auto" />
+            <h2 class="text-gray-100 font-bold text-3xl ">${data.location.name}</h2>
+            <p class="text-gray-100 text-3xl font-bold">${data.current.condition.text}</p>
+            <p class="text-cyan-800 text-2xl font-bold">${data.current.temp_c} °C</p>
+          `;
+          contanier.innerHTML = weatherDisplay;
+
+          // Clear the list before appending new items
+          list.innerHTML = "";
+
+          // Append weather data to the list
+          weatherData.map((item) => {
+            const listData = `
+              <li class="bg-gray-800 text-white py-2 px-4 mb-2 rounded shadow">
+                <p>${item.location.name}: ${item.current.temp_c} °C, ${item.current.condition.text}</p>
+                <button class="bg-red-500 text-white py-1 px-2 rounded" onclick="removeItem('${item.location.name}')">x</button>
+
+              </li>
+            `;
+            list.innerHTML += listData;
+          });
+        } catch (error) {
+          contanier.innerHTML = `<p class="text-red-400">Location not found</p>`;
+          console.log(error);
+        }
+      };
+
+      // Function to remove a weather entry
+      const removeItem = (cityName) => {
+        let weatherData = JSON.parse(localStorage.getItem("weatherEntry")) || [];
+        weatherData = weatherData.filter((item) => item.location.name !== cityName);
+        localStorage.setItem("weatherEntry", JSON.stringify(weatherData));
+        list.innerHTML = "";
+        weatherData.map((item) => {
+          const listData = `
+            <li class="bg-gray-800 text-white py-2 px-4 mb-2 rounded shadow">
+              <p>${item.location.name}: ${item.current.temp_c} °C, ${item.current.condition.text}</p>
+              <button class="bg-red-500 text-white py-1 px-2 rounded" onclick="removeItem('${item.location.name}')">x</button>
+            </li>
+          `;
+          list.innerHTML += listData;
+        });
+      };
+
+      weatherBtn.addEventListener("click", fetchApi);
+    </script>
+  </body>
+</html>
