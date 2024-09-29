@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>color chnage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="bg-slate-100 w-96 m-auto p-2">
+      <select name="" id="color" class="w-80 ">
+        <option class="titleTag" value="100" title="">100</option>
+        <option class="titleTag" value="200" title="">200</option>
+        <option class="titleTag" value="300" title="">300</option>
+        <option class="titleTag" value="400" title="">400</option>
+        <option class="titleTag" value="500" title="">500</option>
+        <option class="titleTag" value="600" title="">600</option>
+        <option class="titleTag" value="700" title="">700</option>
+        <option class="titleTag" value="800" title="">800</option>
+        <option class="titleTag" value="100" title="">900</option>
+        <option class="titleTag" value="200" title="">950</option>
+      </select>
+
+      <ul class="py-3 space-y-4 font-bold text-xl ">
+        <li class="list-items">Rupinder Kaur</li>
+        <li class="list-items">JavaScript is an easy programming language</li>
+        <li class="list-items">React is a very famous library</li>
+        <li class="list-items">Today is a great day</li>
+        <li class="list-items">React is very easy to learn</li>
+      </ul>
+      <!-- <p title="" id="hoverTag">click here to find color class</p> -->
+    </div>
+    <script>
+      const TitleTag = document.querySelectorAll(".titleTag")
+      const selectedColor = document.getElementById("color");
+      const listItem = document.querySelectorAll(".list-items");
+      const textColor = [
+        "text-red-800",
+        "text-green-500",
+        "text-blue-900",
+        "text-pink-500",
+        "text-yellow-500",
+        "text-cyan-500",
+        "text-gray-500",
+      ];
+      const bgColor = [
+        "bg-red",
+        "bg-green",
+        "bg-yellow",
+        "bg-blue",
+        "bg-cyan",
+        "bg-pink",
+      ];
+
+      function randomNum(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+      }
+
+      const listItems = document.querySelectorAll(".list-items");
+
+      listItem.forEach((item) => {
+       
+        item.addEventListener("click", function () {
+          let colorOptions = selectedColor.value;
+
+          let textColors = randomNum(0, textColor.length);
+          let chngetextColor = textColor[textColors];
+          console.log( chngetextColor);
+          
+
+          let backgroundColor = randomNum(0, bgColor.length);
+          let ChangeBgColor = bgColor[backgroundColor] + "-" + colorOptions;
+          console.log(ChangeBgColor);
+          let setTitle = `text-color: ${chngetextColor}  background-color: ${ChangeBgColor} `;
+          selectedColor.title = setTitle
+          // TitleTag.forEach((item)=>{
+          //   item.title = setTitle
+
+          // }) 
+          // console.log(selectedColor.title);
+          
+
+          textColor.forEach((elm)=> item.classList.remove(elm))
+          bgColor.forEach((elm)=> item.classList.remove(ChangeBgColor))
+
+          item.classList.add(ChangeBgColor);
+          item.classList.add(chngetextColor);
+          item.classList.add(colorOptions);
+        });
+      });
+      // });
+    </script>
+  </body>
+</html>
