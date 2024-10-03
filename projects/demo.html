@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <form action="" class=" bg-slate-400 w-96" id="myForm">
+      <div>
+        <label for="">First Name :</label>
+        <br>
+        <input type="text" name="" id="name" class="border" />
+      </div>
+      <div>
+        <label for="">Email:</label><br>
+        <input type="email" name="" id="email">
+      </div>
+      <div>
+        <label for="">Gender</label><br>
+        <input type="radio" name="gender" value="Male">
+        <span>Male</span><br>
+        <input type="radio" name="gender" value="Female">
+        <span>Female</span>
+      </div>
+      <div>
+        <label for="">Language</label><br>
+        <input type="checkbox" name="language" value="Punjabi">
+        <span>Punjabi</span><br>
+        <input type="checkbox" name="language" value="English">
+        <span>English</span><br>
+        <input type="checkbox" name="language" value="Hindi">
+        <span>Hindi</span>
+      </div>
+      <button type="button" id="btn" class="bg-zinc-950 text-white px-5 py-2">Submit</button>
+    </form>
+
+    <script>
+        // Corrected variable name 'firstName'
+        const firstName = document.getElementById("name")
+        const userEmail = document.getElementById("email")
+        const submitBtn = document.getElementById("btn")
+
+        const submitData = () => {
+            // Get first name and email values
+            let firstNameValue = firstName.value;
+            let emailValue = userEmail.value;
+
+            // Get selected gender
+            const genders = document.getElementsByName("gender");
+            let selectedGender;
+            for (const gender of genders) {
+                if (gender.checked) {
+                    selectedGender = gender.value;
+                    break;
+                }
+            }
+
+            // Get selected languages
+            const languages = document.getElementsByName("language");
+            let selectedLanguages = [];
+            for (const language of languages) {
+                if (language.checked) {
+                    selectedLanguages.push(language.value);
+                }
+            }
+
+            // Log the results
+            console.log("First Name:", firstNameValue);
+            console.log("Email:", emailValue);
+            console.log("Gender:", selectedGender);
+            console.log("Languages:", selectedLanguages.join(", "));
+        };
+
+        // Attach event listener to the button
+        submitBtn.addEventListener("click", submitData);
+    </script>
+  </body>
+</html>
