@@ -1,119 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Task Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
-    <div class="w-96 m-auto my-8 bg-gray-200 shadow h-96 px-4">
-        <div class="py-3 text-center">
-            <input class="bg-gray-100 w-72 py-1" id="textInput" type="text">
-            <button id="AddBtn"  class="bg-blue-500 px-3 text-white py-1">Add</button>
-        </div>
+    <div class="w-[696px] h-96 bg-lime-950 rounded-md mt-10 shadow-10 border-4xl px-10 m-auto">
         <div>
-            <ul id="userList" class=" space-y-3 "></ul>
+            <input id="input" class="mt-10 w-[402px] rounded-md" type="text" placeholder="Enter your Task">
+            <button id="btn" class="px-2 ml-10 shadow-10 text-red-600 bg-white rounded-md text-2xl font-bold">ADD</button>
+            <button id="update" class="hidden px-2 ml-10 shadow-10 text-red-600 bg-white rounded-md text-2xl font-bold">Update</button>
         </div>
+
+        <ul id="Ulist"></ul>
+
+        <script>
+            let data = [];
+            const Updatebtn = document.getElementById('update');
+            const input = document.getElementById('input');
+            const btn = document.getElementById('btn');
+            const userlist = document.getElementById('Ulist');
+            Updatebtn.addEventListener("click", updateTask)
+
+            // Event listener to add a new task
+            btn.addEventListener('click', function () {
+                let record = input.value.trim();
+                if (record) {
+                    let object = {
+                        name: record,
+                        id: window.crypto.randomUUID()
+                    };
+                    data.push(object);
+                    localStorage.setItem('name', JSON.stringify(data));
+                    input.value = '';
+                    Display();
+                }
+            });
+
+            // Display the tasks
+            function Display() {
+                userlist.innerHTML = "";
+                data.forEach((item) => {
+                    let list = document.createElement('li');
+                    list.classList = "text-xl text-amber-700 font-bold";
+                    list.innerHTML = item.name;
+                    userlist.appendChild(list);
+
+                    let Delbtn = document.createElement('button');
+                    let Editbtn = document.createElement('button');
+
+                    Editbtn.classList = "text-xl text-green-700 font-bold";
+                    Editbtn.innerHTML = 'EDIT';
+                    list.appendChild(Editbtn);
+
+                    // When Edit is clicked, pass the ID of the item to be edited
+                    Editbtn.addEventListener('click', function () {
+                        input.value = item.name;
+                        Updatebtn.classList.remove('hidden');
+                        btn.classList.add('hidden');
+                        updateTask(item.id)
+                        
+                        // Event listener for Update button
+                        // Updatebtn.onclick = function () {
+                        //     updateTask(item.id);
+                        // };
+                    });
+
+                    Delbtn.classList = "text-xl text-yellow-50 font-bold ml-30";
+                    Delbtn.innerHTML = 'DEL';
+                    list.appendChild(Delbtn);
+
+                    // Delete functionality
+                    Delbtn.addEventListener('click', function () {
+                        data = data.filter(function (task) {
+                            return task.id !== item.id;
+                        });
+                        Display();
+                    });
+                });
+            }
+
+            // Update task with specific ID
+            function updateTask(id) {
+                data = data.map((item) => {
+                    if (item.id === id) {
+                        return { ...item, name: input.value };
+                    }
+                    return item;
+                });
+                input.value = '';
+                Updatebtn.classList.add('hidden');
+                btn.classList.remove('hidden');
+                Display();
+            }
+        </script>
     </div>
-    <script>
-        let arrayData = JSON.parse(localStorage.getItem("todo")) || [];
-        const inputText = document.getElementById("textInput");
-        const addBtn = document.getElementById("AddBtn");
-        const ulList = document.getElementById("userList");
-
-        addBtn.addEventListener("click", addTask);
-
-        function addTask() {
-            let inputData = inputText.value.trim();
-            if (inputData === "") return;
-
-            let obj = {
-                id: window.crypto.randomUUID(),
-                taskName: inputData,
-                completed: false,
-            };
-
-            arrayData.push(obj);
-            displayList();
-            storeList();
-            inputText.value = "";
-        }
-
-        function displayList() {
-            ulList.innerHTML = "";
-            arrayData.map((item) => {
-                let listData = `
-                <li class="flex items-center bg-white px-1 py-2 space-x-2">
-                    <p class="w-full">${item.taskName}</p>
-                    <input type="text" class="hidden bg-gray-100 flex-grow" value="${item.taskName}">
-                    <button class="delItem bg-red-500 text-white px-2 py-1" data-item="${item.id}">del</button>
-                    <button class="updateItem hidden bg-green-500 text-white px-2 py-1" data-item="${item.id}">up</button>
-                    <button class="editItem bg-blue-500 text-white px-2 py-1" data-item="${item.id}">edit</button>
-                </li>`;
-                ulList.innerHTML += listData;
-            });
-
-            addEventListeners();
-        }
-
-        function addEventListeners() {
-            const delItems = document.querySelectorAll(".delItem");
-            delItems.forEach((delItem) => {
-                delItem.addEventListener("click", function () {
-                    const itemId = delItem.getAttribute("data-item");
-                    arrayData = arrayData.filter((element) => element.id !== itemId);
-                    displayList();
-                    storeList();
-                });
-            });
-
-            const editItems = document.querySelectorAll(".editItem");
-            editItems.forEach((editItem) => {
-                editItem.addEventListener("click", function () {
-                    const itemId = editItem.getAttribute("data-item");
-                    const li = editItem.parentElement;
-                    console.log("nnnn",li)
-                    const inputField = li.querySelector("input[type='text']");
-                    const updateBtn = li.querySelector(".updateItem");
-                    const pTag = li.querySelector("p");
-
-                    inputField.classList.toggle("hidden");
-                    pTag.classList.toggle("hidden");
-                    updateBtn.classList.toggle("hidden");
-                    editItem.classList.toggle("hidden");
-
-                    inputField.focus();
-                });
-            });
-
-            const updateItems = document.querySelectorAll(".updateItem");
-            updateItems.forEach((updateItem) => {
-                updateItem.addEventListener("click", function () {
-                    const itemId = updateItem.getAttribute("data-item");
-                    const li = updateItem.parentElement;
-                    const inputField = li.querySelector("input[type='text']");
-                    const pTag = li.querySelector("p");
-                    const editBtn = li.querySelector(".editItem");
-
-                    const updatedTask = inputField.value.trim();
-                    if (updatedTask === "") return;
-
-                    arrayData = arrayData.map((item) =>
-                        item.id === itemId ? { ...item, taskName: updatedTask } : item
-                    );
-
-                    displayList();
-                    storeList();
-                });
-            });
-        }
-
-        function storeList() {
-            localStorage.setItem("todo", JSON.stringify(arrayData));
-        }
-
-        displayList();
-    </script>
 </body>
+
 </html>
