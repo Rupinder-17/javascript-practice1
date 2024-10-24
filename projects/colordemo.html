@@ -12,11 +12,11 @@
     <div class="w-60 bg-blue-400 m-auto mt-6 rounded-md p-4">
         <div>
             <!-- Checkboxes for selecting base colors -->
-            <input type="checkbox" name="color" value="bg-red">
+            <input type="checkbox" name="color" value="red">
             <label for="">Red</label><br>
-            <input type="checkbox" name="color" value="bg-blue">
+            <input type="checkbox" name="color" value="blue">
             <label for="">Blue</label><br>
-            <input type="checkbox" name="color" value="bg-green">
+            <input type="checkbox" name="color" value="green">
             <label for="">Green</label>
         </div>
         <!-- Dropdown for selecting intensity variation -->
@@ -37,33 +37,22 @@
         const setcolor = document.getElementsByName('color');
         const setoption = document.getElementById('option');
         const setlist = document.querySelectorAll('.list');
-         function randomNum(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-      }
+
+        function randomNum(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
 
         setlist.forEach((item) => {
             item.addEventListener('click', function () {
-
-              let colorchange = randomNum(0, setcolor.length)
-
-              let bbbb = setcolor[colorchange].value
-              console.log(bbbb);
-              
-                // Get the selected base color from checkboxes
-                let baseColor = '';
-                setcolor.forEach((color) => {
-                    if (color.checked) {
-                        baseColor = color.value;
-                    }
-                });
+                // Randomly pick one of the colors
+                let colorIndex = randomNum(0, setcolor.length);
+                let selectedColor = setcolor[colorIndex].value;
 
                 // Get the selected intensity variation from dropdown
                 const intensity = setoption.value;
 
-                // Construct the Tailwind background class using the selected base color and intensity
-                // if (baseColor) {
-                    item.classList = `list bg-${baseColor}-${intensity} p-2 rounded-md`; // Apply color and styling
-                // }
+                // Construct the Tailwind background class using the random base color and selected intensity
+                item.classList = `list bg-${selectedColor}-${intensity} p-2 rounded-md`; // Apply color and styling
             });
         });
     </script>

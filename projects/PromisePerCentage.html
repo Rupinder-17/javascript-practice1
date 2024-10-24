@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const allwithPromises = (promises, onprogress) => {
+        let complete = 0;
+        return Promise.all(
+          promises.map((promise) => {
+            promise.then((result) => {
+              complete++;
+              const completeProgress = (complete / promises.length) * 100;
+              onprogress(completeProgress.toFixed(2));
+
+              return result;
+            });
+          })
+        );
+      };
+      const tasks = [
+        () => new Promise((res) => setTimeout(() => res("Task 1"), 1000)),
+        () => new Promise((res) => setTimeout(() => res("Task 2"), 2000)),
+        () => new Promise((res) => setTimeout(() => res("Task 3"), 3500)),
+      ];
+      allwithPromises(
+        tasks.map((t) => t()),
+        (progress) => {
+          console.log("Progress", progress + "%");
+        }
+      );
+    </script>
+  </body>
+</html>
