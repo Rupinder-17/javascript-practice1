@@ -45,8 +45,6 @@ function displayImage(index) {
     indicaters[index].classList.add("active")
 
 }
-
-
 indicaters.forEach(indicater => {
     indicater.addEventListener("click", () => {
         const index = parseInt(indicater.getAttribute("data-index"))
