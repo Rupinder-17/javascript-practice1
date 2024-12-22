@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cat Information Speaker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div
+      id="container"
+      class="w-[50%] m-auto text-center px-5 bg-white shadow-md rounded-lg"
+    >
+      <h1 class="text-2xl font-bold text-center mb-6">
+        Cat Information Speaker
+      </h1>
+      <button id="CatButton" class="bg-blue-500 px-4 py-1 rounded-lg">
+        Load Random cat
+      </button>
+      <div id="cat-info"></div>
+      <button id="speech" class="bg-red-500 px-4 py-1 rounded-md text-white">
+        Speech Dec
+      </button>
+    </div>
+
+    <script>
+      let container = document.getElementById("container");
+      let btn = document.getElementById("CatButton");
+      let catInfo = document.getElementById("cat-info");
+      let speechBtn = document.getElementById("speech");
+    //   console.log(catInfo);
+
+      function textToSpeech(text) {
+        if ("speechSynthesis" in window) {
+          const utterance = new SpeechSynthesisUtterance(text);
+          speechSynthesis.speak(utterance);
+          setTimeout(()=>{
+            speechSynthesis.cancel()
+          },5000)
+        } else {
+          console.error("Sorry, your browser doesn't support text-to-speech.");
+        }
+      }
+    //   speechBtn.addEventListener("click", textToSpeech)
+    speechBtn.addEventListener("click", ()=>{
+        // console.log("Speaking:", text);
+        const desText = document.querySelector(".catDes")
+        console.log(desText);
+        
+        if(desText){
+            const speechText = desText.textContent
+            textToSpeech(speechText)
+        }else{
+            console.log("there is no data");
+            
+        }
+    })
+
+      const apiData = async () => {
+        try {
+          let response = await fetch(
+            "https://api.freeapi.app/api/v1/public/cats/cat/random"
+          );
+          let res = await response.json();
+          console.log(res);
+
+          if (res?.data) {
+            // catInfo.innerHTML = ""
+            const inntertextData = `
+              <div class="p-4   text-center border border-gray-300  shadow-md rounded-lg mb-4">
+                <img
+                src="${res.data.image}"
+                alt="Cat Image"
+                class="h-80 rounded-md mb-3 px-"
+                />
+                <h2 class="text-xl font-semibold text-gray-700 mb-2">${res.data.name}</h2>
+                <p class="catDes text-gray-600">${res.data.description}</p>
+              </div>
+            `;
+            catInfo.innerHTML = inntertextData;
+            // textToSpeech(res.data.description);
+          } else {
+            catInfo.innerHTML += `
+              <p class="text-red-500">No data available.</p>
+            `;
+          }
+        } catch (e) {
+          console.error(e);
+          catInfo.innerHTML += `
+            <p class="text-red-500">Error fetching data. Please try again later.</p>
+          `;
+        }
+      };
+      btn.addEventListener("click", apiData);
+
+      //   apiData();
+    </script>
+  </body>
+</html>
