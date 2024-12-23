@@ -1,189 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sendbird Chat App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="config.js"></script>
-</head>
-<body class="bg-gray-100">
+  </head>
+  <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
-        <!-- Login Section -->
-        <div id="loginSection" class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-2xl font-bold mb-4">Login</h2>
-            <input type="text" id="userId" placeholder="Enter User ID" class="w-full p-2 mb-4 border rounded">
-            <button onclick="login()" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
+      <!-- Login Section -->
+      <div
+        id="loginSection"
+        class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 mb-8"
+      >
+        <h2 class="text-2xl font-bold mb-4">Login</h2>
+        <input
+          type="text"
+          id="userId"
+          placeholder="Enter User ID"
+          class="w-full p-2 mb-4 border rounded"
+        />
+        <button
+          onclick="login()"
+          class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+        >
+          Login
+        </button>
+      </div>
+
+      <!-- Chat Section (Hidden by default) -->
+      <div id="chatSection" class="hidden max-w-4xl mx-auto">
+        <!-- Users List -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+          <h3 class="text-xl font-bold mb-2">Users</h3>
+          <div id="usersList" class="space-y-2"></div>
         </div>
 
-        <!-- Chat Section (Hidden by default) -->
-        <div id="chatSection" class="hidden max-w-4xl mx-auto">
-            <!-- Users List -->
-            <div class="bg-white rounded-lg shadow-md p-4 mb-4">
-                <h3 class="text-xl font-bold mb-2">Users</h3>
-                <div id="usersList" class="space-y-2"></div>
-            </div>
+        <!-- Messages Section -->
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <div
+            id="messagesList"
+            class="h-96 overflow-y-auto mb-4 space-y-2"
+          ></div>
 
-            <!-- Messages Section -->
-            <div class="bg-white rounded-lg shadow-md p-4">
-                <div id="messagesList" class="h-96 overflow-y-auto mb-4 space-y-2"></div>
-                
-                <!-- Message Input -->
-                <div class="flex gap-2">
-                    <input type="text" id="messageInput" placeholder="Type your message..." 
-                           class="flex-1 p-2 border rounded">
-                    <button onclick="sendMessage()" 
-                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                        Send
-                    </button>
-                </div>
-            </div>
+          <!-- Message Input -->
+          <div class="flex gap-2">
+            <input
+              type="text"
+              id="messageInput"
+              placeholder="Type your message..."
+              class="flex-1 p-2 border rounded"
+            />
+            <button
+              onclick="sendMessage()"
+              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Send
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-    <script >
-let currentUser = null;
-const CHANNEL_URL = 'sendbird_group_channel_126383962_9469eb47c13e3a2fc50f89a5c5c645a10fde4349'; // Replace with your channel URL
+    <script>
+      let currentUser = null;
+      const CHANNEL_URL =
+        "sendbird_group_channel_126383962_9469eb47c13e3a2fc50f89a5c5c645a10fde4349"; // Replace with your channel URL
 
-// Login function
-async function login() {
-    const userId = document.getElementById('userId').value;
-     if (!userId) {
-        alert('Please enter a user ID');
-        return;
-    }
-
-    try {
-        const response = await fetch(${SENDBIRD_CONFIG.API_ENDPOINT}/v3/users/${userId}, {
-            method: 'GET',
-            headers: {
-                'Api-Token': SENDBIRD_CONFIG.API_TOKEN,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            // Create user if doesn't exist
-            const createResponse = await fetch(${SENDBIRD_CONFIG.API_ENDPOINT}/v3/users, {
-                method: 'POST',
-                headers: {
-                    'Api-Token': SENDBIRD_CONFIG.API_TOKEN,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_id: userId,
-                    nickname: userId,
-                    profile_url: 'https://via.placeholder.com/150'
-                })
-            });
-
-            if (!createResponse.ok) {
-                throw new Error('Failed to create user');
-            }
+      // Login function
+      async function login() {
+        const userId = document.getElementById("userId").value;
+        if (!userId) {
+          alert("Please enter a user ID");
+          return;
         }
 
-        currentUser = userId;
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('chatSection').classList.remove('hidden');
-        
-        // Load initial data
-        loadUsers();
-        loadMessages();
-    } catch (error) {
-        console.error('Login error:', error);
-        alert('Failed to login. Please try again.');
-    }
-}
-
-// Load users
-async function loadUsers() {
-    try {
-        const response = await fetch(${SENDBIRD_CONFIG.API_ENDPOINT}/v3/users?limit=20, {
-            headers: {
-                'Api-Token': SENDBIRD_CONFIG.API_TOKEN
+        try {
+          const response = await fetch(
+            `${SENDBIRD_CONFIG.API_ENDPOINT}/v3/users/${userId}`,
+            {
+              method: "GET",
+              headers: {
+                "Api-Token": SENDBIRD_CONFIG.API_TOKEN,
+                "Content-Type": "application/json",
+              },
             }
-        });
+          );
 
-        if (!response.ok) throw new Error('Failed to fetch users');
-        
-        const data = await response.json();
-        const usersList = document.getElementById('usersList');
-        usersList.innerHTML = '';
-        
-        data.users.forEach(user => {
-            const userElement = document.createElement('div');
-            userElement.className = 'p-2 bg-gray-50 rounded';
+          if (!response.ok) {
+            // Create user if doesn't exist
+            const createResponse = await fetch(
+              `${SENDBIRD_CONFIG.API_ENDPOINT}/v3/users`,
+              {
+                method: "POST",
+                headers: {
+                  "Api-Token": SENDBIRD_CONFIG.API_TOKEN,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  user_id: userId,
+                  nickname: userId,
+                  profile_url: "https://via.placeholder.com/150",
+                }),
+              }
+            );
+
+            if (!createResponse.ok) {
+              throw new Error("Failed to create user");
+            }
+          }
+
+          currentUser = userId;
+          document.getElementById("loginSection").classList.add("hidden");
+          document.getElementById("chatSection").classList.remove("hidden");
+
+          // Load initial data
+          loadUsers();
+          loadMessages();
+        } catch (error) {
+          console.error("Login error:", error);
+          alert("Failed to login. Please try again.");
+        }
+      }
+
+      // Load users
+      async function loadUsers() {
+        try {
+          const response = await fetch(
+            `${SENDBIRD_CONFIG.API_ENDPOINT}/v3/users?limit=20`,
+            {
+              headers: {
+                "Api-Token": SENDBIRD_CONFIG.API_TOKEN,
+              },
+            }
+          );
+
+          if (!response.ok) throw new Error("Failed to fetch users");
+
+          const data = await response.json();
+          const usersList = document.getElementById("usersList");
+          usersList.innerHTML = "";
+
+          data.users.forEach((user) => {
+            const userElement = document.createElement("div");
+            userElement.className = "p-2 bg-gray-50 rounded";
             userElement.textContent = user.nickname || user.user_id;
             usersList.appendChild(userElement);
-        });
-    } catch (error) {
-        console.error('Error loading users:', error);
-    }
-}
+          });
+        } catch (error) {
+          console.error("Error loading users:", error);
+        }
+      }
 
-// Load messages
-async function loadMessages(messageID = 1063213121) {
-    try {
-        const response = await fetch(${SENDBIRD_CONFIG.API_ENDPOINT}/v3/group_channels/${CHANNEL_URL}/messages?message_id=${messageID}&limit=20, {
-            headers: {
-                'Api-Token': SENDBIRD_CONFIG.API_TOKEN
+      // Load messages
+      async function loadMessages(messageID = 1063213121) {
+        try {
+          const response = await fetch(
+            `${SENDBIRD_CONFIG.API_ENDPOINT}/v3/group_channels/${CHANNEL_URL}/messages?message_id=${messageID}&limit=2`,
+            {
+              headers: {
+                "Api-Token": SENDBIRD_CONFIG.API_TOKEN,
+              },
             }
-        });
+          );
 
-        if (!response.ok) throw new Error('Failed to fetch messages');
-        
-        const data = await response.json();
-        const messagesList = document.getElementById('messagesList');
-        messagesList.innerHTML = '';
-        
-        data.messages.forEach(message => {
-            const messageElement = document.createElement('div');
-            messageElement.className = p-2 rounded ${message.user.user_id === currentUser ? 'bg-blue-100 ml-auto' : 'bg-gray-100'};
-            messageElement.style.maxWidth = '80%';
+          if (!response.ok) throw new Error("Failed to fetch messages");
+
+          const data = await response.json();
+          const messagesList = document.getElementById("messagesList");
+          messagesList.innerHTML = "";
+
+          data.messages.forEach((message) => {
+            const messageElement = document.createElement("div");
+            messageElement.className = `p-2 rounded ${
+              message.user.user_id === currentUser
+                ? "bg-blue-100 ml-auto"
+                : "bg-gray-100"
+            }`;
+            messageElement.style.maxWidth = "80%";
             messageElement.innerHTML = `
-                <div class="font-bold text-sm">${message.user.nickname || message.user.user_id}</div>
+                <div class="font-bold text-sm">${
+                  message.user.nickname || message.user.user_id
+                }</div>
                 <div>${message.message}</div>
             `;
             messagesList.appendChild(messageElement);
-        });
-        
-        messagesList.scrollTop = messagesList.scrollHeight;
-    } catch (error) {
-        console.error('Error loading messages:', error);
-    }
-}
+          });
 
-// Send message
-async function sendMessage() {
-    const messageInput = document.getElementById('messageInput');
-    const message = messageInput.value.trim();
-    
-    if (!message) return;
+          messagesList.scrollTop = messagesList.scrollHeight;
+        } catch (error) {
+          console.error("Error loading messages:", error);
+        }
+      }
 
-    try {
-        const response = await fetch(${SENDBIRD_CONFIG.API_ENDPOINT}/v3/group_channels/${CHANNEL_URL}/messages, {
-            method: 'POST',
-            headers: {
-                'Api-Token': SENDBIRD_CONFIG.API_TOKEN,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message_type: 'MESG',
+      // Send message
+      async function sendMessage() {
+        const messageInput = document.getElementById("messageInput");
+        const message = messageInput.value.trim();
+
+        if (!message) return;
+
+        try {
+          const response = await fetch(
+            `${SENDBIRD_CONFIG.API_ENDPOINT}/v3/group_channels/${CHANNEL_URL}/messages`,
+            {
+              method: "POST",
+              headers: {
+                "Api-Token": SENDBIRD_CONFIG.API_TOKEN,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                message_type: "MESG",
                 user_id: currentUser,
-                message: message
-            })
-        });
+                message: message,
+              }),
+            }
+          );
 
-        if (!response.ok) throw new Error('Failed to send message');
-        
-        let jsonData = await response.json();
+          if (!response.ok) throw new Error("Failed to send message");
 
-        messageInput.value = '';
-        loadMessages(jsonData.message_id);
-    } catch (error) {
-        console.error('Error sending message:', error);
-        alert('Failed to send message. Please try again.');
-    }
-}
+          let jsonData = await response.json();
+
+          messageInput.value = "";
+          loadMessages(jsonData.message_id);
+        } catch (error) {
+          console.error("Error sending message:", error);
+          alert("Failed to send message. Please try again.");
+        }
+      }
     </script>
-</body>
+  </body>
 </html>
