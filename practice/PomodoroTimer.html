@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Pomodoro Timer</h1>
+        
+        <div class="bg-red-400 text-white py-4 px-6 rounded-lg mb-4">
+            <h2 class="text-lg font-semibold">Timer</h2>
+            <div class="text-4xl font-bold my-2 bg-black" id="timer"></div>
+            <div class="flex justify-center gap-4 mt-2">
+                <button id="start" class="bg-green-500 px-4 py-2 rounded text-white">Start</button>
+                <button id="Focus" class="bg-lime-600 px-4 py-2 rounded text-white">Focus</button>
+                <button id="Break" class="bg-yellow-500 px-4 py-2 rounded text-white">Break</button>
+                <button id="Reset" class="bg-blue-500 px-4 py-2 rounded text-white">Reset</button>
+            </div>
+        </div>
+        
+        <div class="bg-gray-200 p-4 rounded-lg">
+            <h2 class="text-lg font-semibold mb-2">Settings</h2>
+            <div class="flex flex-col gap-2">
+                <div>
+                    <label for="workTime" class="block font-medium text-gray-700">Work Time (min)</label>
+                    <input type="number" id="workTime" value="25" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label for="breakTime" class="block font-medium text-gray-700">Break Time (min)</label>
+                    <input type="number" id="breakTime" value="5" class="w-full p-2 border rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const timer = document.getElementById('timer');
+        const start = document.getElementById('start');
+        const Focus = document.getElementById('Focus');
+        const Break = document.getElementById('Break');
+        const Reset = document.getElementById('Reset');
+        const workTime = document.getElementById('workTime');
+        const breakTime = document.getElementById('breakTime');
+        let time = workTime.value * 60;
+        let isRunning = false;
+        let isFocus = true;
+        let interval;
+
+        function updateTimer() {
+            const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+            const seconds = (time % 60).toString().padStart(2, '0');
+            timer.textContent = `${minutes}:${seconds}`;
+        }
+
+        const startTime = () => {
+            if (isRunning) {
+                clearInterval(interval);
+                isRunning = false;
+                start.textContent = 'Start';
+            } else {
+                interval = setInterval(() => {
+                    if (time > 0) {
+                        time--;
+                    } else {
+                        clearInterval(interval);
+                        time = isFocus ? workTime.value * 60 : breakTime.value * 60;
+                        isFocus = !isFocus;
+                        updateTimer();
+                        startTime();
+                    }
+                    updateTimer();
+                }, 1000);
+                isRunning = true;
+                start.textContent = 'Pause';
+            }
+        };
+
+        start.addEventListener('click', startTime);
+        Focus.addEventListener('click', () => {
+            time = workTime.value * 60;
+            isFocus = true;
+            updateTimer();
+        });
+        Break.addEventListener('click', () => {
+            time = breakTime.value * 60;
+            isFocus = false;
+            updateTimer();
+        });
+        Reset.addEventListener('click', () => {
+            time = workTime.value * 60;
+            isFocus = true;
+            updateTimer();
+        });
+
+        workTime.addEventListener('input', () => {
+            if (!isRunning && isFocus) {
+                time = workTime.value * 60;
+                updateTimer();
+            }
+        });
+
+        breakTime.addEventListener('input', () => {
+            if (!isRunning && !isFocus) {
+                time = breakTime.value * 60;
+                updateTimer();
+            }
+        });
+
+        updateTimer();
+    </script>
+</body>
+</html>
