@@ -44,8 +44,8 @@
         const workTime = document.getElementById('workTime');
         const breakTime = document.getElementById('breakTime');
         let time = workTime.value * 60;
-        let isRunning = false;
-        let isFocus = true;
+        let mode = "focus";
+        let mode2= "break";
         let interval;
 
         function updateTimer() {
@@ -55,9 +55,9 @@
         }
 
         const startTime = () => {
-            if (isRunning) {
+            if (interval) {
                 clearInterval(interval);
-                isRunning = false;
+                interval = null;
                 start.textContent = 'Start';
             } else {
                 interval = setInterval(() => {

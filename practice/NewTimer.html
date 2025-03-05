@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro Timer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
+      <h1 class="text-2xl font-bold text-gray-800 mb-4">Pomodoro Timer</h1>
+
+      <div class="bg-blue-400 text-white py-4 px-6 rounded-lg mb-4">
+        <h2 class="text-lg font-semibold">Timer</h2>
+        <div class="text-4xl font-bold my-2 text-white p-4 rounded" id="timer">
+          00:00
+        </div>
+        <div class="flex justify-center gap-4 mt-2">
+          <button
+            id="start"
+            class="bg-green-500 px-4 py-2 rounded text-white hover:bg-green-600"
+          >
+            Start
+          </button>
+          <button
+            id="stop"
+            class="bg-red-500 px-4 py-2 rounded text-white hover:bg-red-600"
+          >
+            Stop
+          </button>
+          <button
+            id="reset"
+            class="bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600"
+          >
+            Reset
+          </button>
+        </div>
+
+      </div>
+      <div>
+        <h1>SET TIME</h1>
+        <div>
+            <label for="workTime" class="block font-medium text-gray-700">Work Time (min)</label>
+            <input type="number" id="workTime" value="25" class="w-full p-2 border rounded">
+        </div>
+        <div>
+            <label for="breakTime" class="block font-medium text-gray-700">Break Time (min)</label>
+            <input type="number" id="breakTime" value="5" class="w-full p-2 border rounded">
+        </div>
+        <div class="mt-6">
+            <button id="Focus" class="bg-gray-500 text-white px-3 rounded-md">Focus</button>
+            <button id="Break" class="bg-orange-100 px-4 rounded-md">Break</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const timer = document.getElementById("timer");
+      const start = document.getElementById("start");
+      const stop = document.getElementById("stop");
+      const reset = document.getElementById("reset");
+      const workTime = document.getElementById("workTime");
+      const breakTime = document.getElementById("breakTime");
+      const focus = document.getElementById("Focus");
+      const Break = document.getElementById("Break");
+      let time = workTime.value *60;
+      let interval;
+      let mode = "focus";
+      
+
+      function updateTimer() {
+        const minutes = Math.floor(time / 60)
+          .toString()
+          .padStart(2, "0");
+        const seconds = (time % 60).toString().padStart(2, "0");
+        timer.textContent = `${minutes}:${seconds}`;
+      }
+      const starttime = () => {
+        console.log("hi");
+
+        if (!interval) {
+          interval = setInterval(() => {
+            time--;
+            updateTimer();
+          }, 1000);
+        } else {
+          clearInterval(interval);
+          interval = null;
+        }
+      };
+      const stopTime = () => {
+        clearInterval(interval);
+        interval = null;
+      };
+      const resetTime = () => {
+        clearInterval(interval);
+        interval = null;
+        time = 0;
+        updateTimer();
+      };
+      start.addEventListener("click", starttime);
+      stop.addEventListener("click", stopTime);
+      reset.addEventListener("click", resetTime);
+    </script>
+  </body>
+</html>
