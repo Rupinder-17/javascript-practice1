@@ -189,9 +189,11 @@
         console.log("decrement");
         if (FocusTime > 1) {
           FocusTime--;
-          time = FocusTime * 60;
-          updateTimer();
           focusTimeDisplay.textContent = `${FocusTime}m`;
+          if (mode === "focus") {
+            time = FocusTime * 60;
+            updateTimer();
+          }
         }
       }
       decrementButton.addEventListener("click", decrementFocusTime);
@@ -200,9 +202,11 @@
         console.log("increment");
         if (FocusTime < 30) {
           FocusTime++;
-          time = FocusTime * 60;
-          updateTimer();
           focusTimeDisplay.textContent = `${FocusTime}m`;
+          if (mode === "focus") {
+            time = FocusTime * 60;
+            updateTimer();
+          }
         }
       }
       incrementButton.addEventListener("click", incrementFocusButton);
@@ -211,9 +215,11 @@
         console.log("breakdecrement");
         if (BreakTime > 1) {
           BreakTime--;
-          time = BreakTime * 60;
-          updateTimer();
           breakTimeDisplay.textContent = `${BreakTime}m`;
+          if (mode === "break") {
+            time = BreakTime * 60;
+            updateTimer();
+          }
         }
       }
       breakDecrement.addEventListener("click", breakDecrementTime);
@@ -222,9 +228,11 @@
         console.log("breakIncrement");
         if (BreakTime < 5) {
           BreakTime++;
-          time = BreakTime * 60;
-          updateTimer();
           breakTimeDisplay.textContent = `${BreakTime}m`;
+          if (mode === "break") {
+            time = BreakTime * 60;
+            updateTimer();
+          }
         }
       }
       breakIncrement.addEventListener("click", breakIncrementTime);
