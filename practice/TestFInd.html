@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h1>test</h1>
+    </div>
+    <script>
+      const array1 = [
+        { id: 1, name: "A" },
+        { id: 2, name: "B" },
+        { id: 3, name: "C" },
+        // { id: 4, name: "D" },
+      ];
+      const array2 = [
+        { id: 2, name: "B" },
+        { id: 3, name: "C" },
+        { id: 4, name: "D" },
+      ];
+      //   const findVallue = array2.find((item)=> item.id === 2)
+      //   console.log("find", findVallue);
+
+      const arrayOutput = array1.filter((item) => !array2.find((elm) => elm.id === item.id));
+      console.log(arrayOutput);
+    </script>
+  </body>
+</html>
